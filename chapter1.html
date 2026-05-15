@@ -30,7 +30,7 @@
     <div class="reset-button" id="resetButton">🔄 Reset ke Part 1</div>
 
     <a-scene id="arScene" mindar-image="
-            imageTargetSrc: ./targets-mind/targets.mind;
+            imageTargetSrc: ./targets-mind/targets-chapter1.mind;
             filterMinCF: 0.0001;
             filterBeta: 0.001;
             warmupTolerance: 3;
@@ -42,15 +42,15 @@
 
         <a-entity id="target1" mindar-image-target="targetIndex: 0">
             <a-entity id="video-container-part1" visible="false">
-                <a-video id="video-laut" src="#vid-laut" position="0 0 0.1" height="1.5" width="1.5"
+                <a-video id="video-laut" src="#vid-laut" position="0 0 0.001" height="1.5" width="1.5"
                     material="shader: chromakey-advanced; src: #vid-laut; transparent: true; side: double"></a-video>
-                <a-video id="video-kapal" src="#vid-kapal" position="0 0 0.20" height="1.5" width="1.5"
+                <a-video id="video-kapal" src="#vid-kapal" position="0 0 0.002" height="1.5" width="1.5"
                     material="shader: chromakey-advanced; src: #vid-kapal; transparent: true; side: double"></a-video>
-                <a-video id="video-batu" src="#vid-batu" position="0 0 0.30" height="1.5" width="1.5"
+                <a-video id="video-batu" src="#vid-batu" position="0 0 0.003" height="1.5" width="1.5"
                     material="shader: chromakey-gentle; src: #vid-batu; transparent: true; side: double"></a-video>
-                <a-video id="video-gelembung" src="#vid-gelembung" position="0 0 0.40" height="1.5" width="1.5"
+                <a-video id="video-gelembung" src="#vid-gelembung" position="0 0 0.004" height="1.5" width="1.5"
                     material="shader: chromakey-bubble; src: #vid-gelembung; transparent: true; side: double"></a-video>
-                <a-video id="video-mascot" src="#vid-mascot" position="0 0 0.60" height="1.5" width="1.5"
+                <a-video id="video-mascot" src="#vid-mascot" position="0 0 0.005" height="1.5" width="1.5"
                     material="shader: chromakey-advanced; src: #vid-mascot; transparent: true; side: double"></a-video>
             </a-entity>
         </a-entity>
@@ -165,20 +165,20 @@
             <video id="vid-mascot7" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             <video id="vid-orang7" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
 
-            <img id="img-lumut4" src="./compressed_ultra/LUMUT-v4.PNG" crossorigin="anonymous" />
+            <img id="img-lumut4" src="./compressed_ultra-videos/LUMUT-v4.PNG" crossorigin="anonymous" />
 
-            <audio id="sound-v1" src="./sounds/bagian1/sound-v1.MP3" preload="auto"></audio>
-            <audio id="sound-v2" src="./sounds/bagian1/sound-v2.MP3" preload="auto"></audio>
-            <audio id="sound-v3" src="./sounds/bagian1/sound-v3.MP3" preload="auto"></audio>
-            <audio id="sound-v4" src="./sounds/bagian1/sound-v4.MP3" preload="auto"></audio>
-            <audio id="sound-v5" src="./sounds/bagian1/sound-v5.MP3" preload="auto"></audio>
-            <audio id="sound-v6" src="./sounds/bagian1/sound-v6.MP3" preload="auto"></audio>
-            <audio id="sound-v7" src="./sounds/bagian1/sound-v7.MP3" preload="auto"></audio>
+            <audio id="sound-v1" src="./sounds/chapter1/output-sounds/sound-v1.MP3" preload="auto"></audio>
+            <audio id="sound-v2" src="./sounds/chapter1/output-sounds/sound-v2.MP3" preload="auto"></audio>
+            <audio id="sound-v3" src="./sounds/chapter1/output-sounds/sound-v3.MP3" preload="auto"></audio>
+            <audio id="sound-v4" src="./sounds/chapter1/output-sounds/sound-v4.MP3" preload="auto"></audio>
+            <audio id="sound-v5" src="./sounds/chapter1/output-sounds/sound-v5.MP3" preload="auto"></audio>
+            <audio id="sound-v6" src="./sounds/chapter1/output-sounds/sound-v6.MP3" preload="auto"></audio>
+            <audio id="sound-v7" src="./sounds/chapter1/output-sounds/sound-v7.MP3" preload="auto"></audio>
         </a-assets>
     </a-scene>
 
     <script src="./js/shaders.js"></script>
-    <script type="module" src="./js/bagian1/main.js"></script>
+    <script type="module" src="./js/chapter1/main.js"></script>
 </body>
 
 </html>

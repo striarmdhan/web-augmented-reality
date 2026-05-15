@@ -8,12 +8,12 @@ const cacheBuster = Date.now();
 console.log("🔄 Cache buster applied:", cacheBuster);
 
 // Part 1
-document.getElementById("vid-bakteri").src = `./compressed_ultra/bagian2/part1/bagian 2 - part1 - bakteri.mp4?t=${cacheBuster}`;
-document.getElementById("vid-balon-bebek").src = `./compressed_ultra/bagian2/part1/bagian 2 - part1 - balon bebek.mp4?t=${cacheBuster}`;
-document.getElementById("vid-kolam-renang").src = `./compressed_ultra/bagian2/part1/bagian 2 - part1 - kolam renang.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot").src = `./compressed_ultra/bagian2/part1/bagian 2 - part1 - mascot.mp4?t=${cacheBuster}`;
-document.getElementById("vid-muntah").src = `./compressed_ultra/bagian2/part1/bagian 2 - part1 - muntah.mp4?t=${cacheBuster}`;
-document.getElementById("vid-orang-gigi").src = `./compressed_ultra/bagian2/part1/bagian 2 - part1 - orang gigi.mp4?t=${cacheBuster}`;
+document.getElementById("vid-bakteri").src = `./compressed_ultra-videos/chapter2/part1/bakteri.mp4?t=${cacheBuster}`;
+document.getElementById("vid-balon-bebek").src = `./compressed_ultra-videos/chapter2/part1/balon bebek.mp4?t=${cacheBuster}`;
+document.getElementById("vid-kolam-renang").src = `./compressed_ultra-videos/chapter2/part1/kolam renang.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot").src = `./compressed_ultra-videos/chapter2/part1/mascot.mp4?t=${cacheBuster}`;
+document.getElementById("vid-muntah").src = `./compressed_ultra-videos/chapter2/part1/muntah.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang-gigi").src = `./compressed_ultra-videos/chapter2/part1/orang gigi.mp4?t=${cacheBuster}`;
 
 
 // FORCE LOAD AUDIO & VIDEO

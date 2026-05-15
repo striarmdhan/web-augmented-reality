@@ -57,8 +57,8 @@ def compress_video_ultra(input_path, output_path):
 
 def main():
     # Folder input dan output
-    input_folder = "raw"
-    output_folder = "compressed_ultra"
+    input_folder = "raw-videos"
+    output_folder = "compressed_ultra-videos"
     
     # Dapatkan semua file video
     video_extensions = ['.mp4', '.MP4', '.avi', '.mov', '.mkv']

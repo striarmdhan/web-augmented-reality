@@ -15,44 +15,44 @@ console.log("🔄 Cache buster applied:", cacheBuster);
 
 // BAGIAN 1 - SETTING PATH KE SUB-FOLDER
 // Part 1
-document.getElementById("vid-laut").src = `./compressed_ultra/bagian1/part1/LAUT-v1.mp4?t=${cacheBuster}`;
-document.getElementById("vid-batu").src = `./compressed_ultra/bagian1/part1/BATU SEAWEED-v1.mp4?t=${cacheBuster}`;
-document.getElementById("vid-gelembung").src = `./compressed_ultra/bagian1/part1/GELEMBUNG-v1.mp4?t=${cacheBuster}`;
-document.getElementById("vid-kapal").src = `./compressed_ultra/bagian1/part1/KAPAL SELAM-v1.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot").src = `./compressed_ultra/bagian1/part1/MASCOT-v1.mp4?t=${cacheBuster}`;
+document.getElementById("vid-laut").src = `./compressed_ultra-videos/chapter1/part1/LAUT-v1.mp4?t=${cacheBuster}`;
+document.getElementById("vid-batu").src = `./compressed_ultra-videos/chapter1/part1/BATU SEAWEED-v1.mp4?t=${cacheBuster}`;
+document.getElementById("vid-gelembung").src = `./compressed_ultra-videos/chapter1/part1/GELEMBUNG-v1.mp4?t=${cacheBuster}`;
+document.getElementById("vid-kapal").src = `./compressed_ultra-videos/chapter1/part1/KAPAL SELAM-v1.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot").src = `./compressed_ultra-videos/chapter1/part1/MASCOT-v1.mp4?t=${cacheBuster}`;
 
 // Part 2
-document.getElementById("vid-batu2").src = `./compressed_ultra/bagian1/part2/BATU SEAWEED-v2.mp4?t=${cacheBuster}`;
-document.getElementById("vid-gelembung2").src = `./compressed_ultra/bagian1/part2/GELEMBUNG-v2.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot2").src = `./compressed_ultra/bagian1/part2/MASCOT-v2.mp4?t=${cacheBuster}`;
-document.getElementById("vid-gosok").src = `./compressed_ultra/bagian1/part2/GOSOK GIGI-v2.mp4?t=${cacheBuster}`;
-document.getElementById("vid-orang").src = `./compressed_ultra/bagian1/part2/ORANG-v2.mp4?t=${cacheBuster}`;
+document.getElementById("vid-batu2").src = `./compressed_ultra-videos/chapter1/part2/BATU SEAWEED-v2.mp4?t=${cacheBuster}`;
+document.getElementById("vid-gelembung2").src = `./compressed_ultra-videos/chapter1/part2/GELEMBUNG-v2.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot2").src = `./compressed_ultra-videos/chapter1/part2/MASCOT-v2.mp4?t=${cacheBuster}`;
+document.getElementById("vid-gosok").src = `./compressed_ultra-videos/chapter1/part2/GOSOK GIGI-v2.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang").src = `./compressed_ultra-videos/chapter1/part2/ORANG-v2.mp4?t=${cacheBuster}`;
 
 // Part 3
-document.getElementById("vid-kapal3").src = `./compressed_ultra/bagian1/part3/KAPAL SELAM-v3.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot3").src = `./compressed_ultra/bagian1/part3/MASCOT-v3.mp4?t=${cacheBuster}`;
-document.getElementById("vid-sikat").src = `./compressed_ultra/bagian1/part3/SIKAT GIGI-v3.mp4?t=${cacheBuster}`;
+document.getElementById("vid-kapal3").src = `./compressed_ultra-videos/chapter1/part3/KAPAL SELAM-v3.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot3").src = `./compressed_ultra-videos/chapter1/part3/MASCOT-v3.mp4?t=${cacheBuster}`;
+document.getElementById("vid-sikat").src = `./compressed_ultra-videos/chapter1/part3/SIKAT GIGI-v3.mp4?t=${cacheBuster}`;
 
 // Part 4
-document.getElementById("vid-kapal4").src = `./compressed_ultra/bagian1/part4/KAPAL SELAM-v4.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot4").src = `./compressed_ultra/bagian1/part4/MASCOT-v4.mp4?t=${cacheBuster}`;
-document.getElementById("vid-sikat4").src = `./compressed_ultra/bagian1/part4/SIKAT GIGI-v4.mp4?t=${cacheBuster}`;
+document.getElementById("vid-kapal4").src = `./compressed_ultra-videos/chapter1/part4/KAPAL SELAM-v4.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot4").src = `./compressed_ultra-videos/chapter1/part4/MASCOT-v4.mp4?t=${cacheBuster}`;
+document.getElementById("vid-sikat4").src = `./compressed_ultra-videos/chapter1/part4/SIKAT GIGI-v4.mp4?t=${cacheBuster}`;
 
 // Part 5
-document.getElementById("vid-orang5").src = `./compressed_ultra/bagian1/part5/ORANG-v5.mp4?t=${cacheBuster}`;
-document.getElementById("vid-tangan").src = `./compressed_ultra/bagian1/part5/TANGAN-v5.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang5").src = `./compressed_ultra-videos/chapter1/part5/ORANG-v5.mp4?t=${cacheBuster}`;
+document.getElementById("vid-tangan").src = `./compressed_ultra-videos/chapter1/part5/TANGAN-v5.mp4?t=${cacheBuster}`;
 
 // Part 6
-document.getElementById("vid-kapal6").src = `./compressed_ultra/bagian1/part6/KAPAL SELAM-v6.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot6").src = `./compressed_ultra/bagian1/part6/MASCOT-v6.mp4?t=${cacheBuster}`;
-document.getElementById("vid-orang6").src = `./compressed_ultra/bagian1/part6/ORANG-v6.mp4?t=${cacheBuster}`;
-document.getElementById("vid-gosok6").src = `./compressed_ultra/bagian1/part6/GOSOK GIGI-v6.mp4?t=${cacheBuster}`;
+document.getElementById("vid-kapal6").src = `./compressed_ultra-videos/chapter1/part6/KAPAL SELAM-v6.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot6").src = `./compressed_ultra-videos/chapter1/part6/MASCOT-v6.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang6").src = `./compressed_ultra-videos/chapter1/part6/ORANG-v6.mp4?t=${cacheBuster}`;
+document.getElementById("vid-gosok6").src = `./compressed_ultra-videos/chapter1/part6/GOSOK GIGI-v6.mp4?t=${cacheBuster}`;
 
 // Part 7
-document.getElementById("vid-coral7").src = `./compressed_ultra/bagian1/part7/CORAL-v7.mp4?t=${cacheBuster}`;
-document.getElementById("vid-laut7").src = `./compressed_ultra/bagian1/part7/LAUT-v7.mp4?t=${cacheBuster}`;
-document.getElementById("vid-mascot7").src = `./compressed_ultra/bagian1/part7/MASCOT-v7.mp4?t=${cacheBuster}`;
-document.getElementById("vid-orang7").src = `./compressed_ultra/bagian1/part7/ORANG-v7.mp4?t=${cacheBuster}`;
+document.getElementById("vid-coral7").src = `./compressed_ultra-videos/chapter1/part7/CORAL-v7.mp4?t=${cacheBuster}`;
+document.getElementById("vid-laut7").src = `./compressed_ultra-videos/chapter1/part7/LAUT-v7.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot7").src = `./compressed_ultra-videos/chapter1/part7/MASCOT-v7.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang7").src = `./compressed_ultra-videos/chapter1/part7/ORANG-v7.mp4?t=${cacheBuster}`;
 
 // 2. FORCE LOAD AUDIO & VIDEO
 [dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4, dom.soundV5, dom.soundV6, dom.soundV7].forEach((s) => {
@@ -63,20 +63,21 @@ allVideos.forEach((v) => {
     v.load(); v.preload = "auto";
 });
 
+const totalVideos = 26;
+
 // 3. LOADING SCREEN SYSTEM
 allVideos.forEach((video, index) => {
     video.addEventListener("loadeddata", () => {
         state.videosLoaded++;
-        const totalVideos = 26;
         const dots = "●".repeat(state.videosLoaded) + "○".repeat(totalVideos - state.videosLoaded);
         dom.loadingProgress.textContent = dots;
     });
 
     video.addEventListener("canplaythrough", () => {
         state.videosBuffered++;
-        dom.loadingDetail.textContent = state.videosBuffered === 26 ? "Siap!" : "Harap bersabar sebentar";
+        dom.loadingDetail.textContent = state.videosBuffered === totalVideos ? "Siap!" : "Harap bersabar sebentar";
 
-        if (state.videosBuffered >= 26 && !state.allFullyBuffered) {
+        if (state.videosBuffered >= totalVideos && !state.allFullyBuffered) {
             state.allFullyBuffered = true;
             state.allReady = true;
             dom.loadingMessage.textContent = "Selesai!";
