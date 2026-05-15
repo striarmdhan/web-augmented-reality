@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagian 2</title>
+
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <a href="index.html" class="back-button">🔙 Menu Utama</a>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-title">Mohon Tunggu</div>
+        <div class="loading-message" id="loadingMessage">Sedang mempersiapkan...</div>
+        <div class="loading-progress" id="loadingProgress">●</div>
+        <div class="loading-detail" id="loadingDetail">Harap bersabar sebentar</div>
+        <div class="loading-tip">Pastikan koneksi internet Anda stabil</div>
+        <button class="start-button" id="startButton" disabled>Tunggu Sebentar...</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">Mencari marker...</div>
+
+    <div class="reset-button" id="resetButton">🔄 Reset ke Part 1</div>
+
+    <a-scene id="arScene" mindar-image="
+            imageTargetSrc: ./targets-mind/targets-bagian2.mind;
+            filterMinCF: 0.0001;
+            filterBeta: 0.001;
+            warmupTolerance: 3;
+            missTolerance: 5;
+            maxTrack: 7;
+        " color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true, antialias: true"
+        vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- Part 1 -->
+        <a-entity id="target1" mindar-image-target="targetIndex: 0">
+            <a-entity id="video-container-part1" visible="false">
+                <a-video id="video-kolam-renang" src="#vid-kolam-renang" position="0 0 0.001" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-kolam-renang; transparent: true; side: double"></a-video>
+                <a-video id="video-balon-bebek" src="#vid-balon-bebek" position="0 0 0.002" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-balon-bebek; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot" src="#vid-mascot" position="0 0 0.003" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-mascot; transparent: true; side: double"></a-video>
+                <a-video id="video-orang-gigi" src="#vid-orang-gigi" position="0 0 0.004" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-orang-gigi; transparent: true; side: double"></a-video>
+                <a-video id="video-bakteri" src="#vid-bakteri" position="0 0 0.005" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-bakteri; transparent: true; side: double"></a-video>
+                <a-video id="video-muntah" src="#vid-muntah" position="0 0 0.006" height="1.5" width="1.5"
+                    material="shader: chromakey-blue; src: #vid-muntah; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-assets>
+            <!-- Part 1 -->
+            <video id="vid-bakteri" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-balon-bebek" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-kolam-renang" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-muntah" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang-gigi" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            
+            <audio id="sound-v1" src="./sounds/bagian2/output-sounds/sound-v1.MP3" preload="auto"></audio>
+        </a-assets>
+    </a-scene>
+
+    <script src="./js/shaders.js"></script>
+    <script type="module" src="./js/bagian2/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Preview - 3D Output</title>
+    
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; overflow: hidden; background: #1a1a1a; }
+        
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            color: white;
+            text-align: center;
+        }
+        
+        .controls h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .controls button {
+            padding: 12px 24px;
+            margin: 5px;
+            font-size: 16px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .controls button:hover {
+            background: #45a049;
+        }
+        
+        .controls button.active {
+            background: #2196F3;
+        }
+        
+        .info {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .loading-info {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 30px 50px;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            z-index: 2000;
+        }
+        
+        .loading-info.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2>Video Preview - 3D Output</h2>
+        <button id="btnPart1">Part 1 (5 videos)</button>
+        <button id="btnPart2">Part 2 (5 videos)</button>
+        <button id="btnPart3">Part 3 (3 videos)</button>
+        <button id="btnPart4">Part 4 (3 videos)</button>
+        <button id="btnPart5">Part 5 (3 videos)</button>
+        <button id="btnPart6">Part 6 (4 videos)</button>
+    </div>
+    
+    <div class="info" id="info">Click button to preview</div>
+    
+    <div class="loading-info" id="loadingInfo">
+        <div>Loading videos...</div>
+        <div id="loadingProgress">0/23</div>
+    </div>
+
+    <a-scene background="color: #1a1a1a">
+        <a-entity id="camera-rig" position="0 0 0">
+            <a-camera position="0 0 3" look-controls="enabled: false"></a-camera>
+        </a-entity>
+
+        <!-- Part 1 Container - DIEM DI TENGAH (0,0,0) -->
+        <a-entity id="video-container-part1" position="0 0 0" visible="false">
+            <a-video id="video-laut" src="#vid-laut" position="0 0 0.1" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-laut; transparent: true; side: double"></a-video>
+            <a-video id="video-kapal" src="#vid-kapal" position="0 0 0.20" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-kapal; transparent: true; side: double"></a-video>
+            <a-video id="video-batu" src="#vid-batu" position="0 0 0.30" height="1.5" width="1.5" material="shader: chromakey-gentle; src: #vid-batu; transparent: true; side: double"></a-video>
+            <a-video id="video-gelembung" src="#vid-gelembung" position="0 0 0.40" height="1.5" width="1.5" material="shader: chromakey-bubble; src: #vid-gelembung; transparent: true; side: double"></a-video>
+            <a-video id="video-mascot" src="#vid-mascot" position="0 0 0.60" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-mascot; transparent: true; side: double"></a-video>
+        </a-entity>
+        
+        <!-- Part 2 Container -->
+        <a-entity id="video-container-part2" position="0 0 0" visible="false">
+            <a-video id="video-batu2" src="#vid-batu2" position="0 0 0.1" height="1.5" width="1.5" material="shader: chromakey-gentle; src: #vid-batu2; transparent: true; side: double"></a-video>
+            <a-video id="video-gelembung2" src="#vid-gelembung2" position="0 0 0.20" height="1.5" width="1.5" material="shader: chromakey-bubble; src: #vid-gelembung2; transparent: true; side: double"></a-video>
+            <a-video id="video-orang" src="#vid-orang" position="0 0 0.30" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-orang; transparent: true; side: double"></a-video>
+            <a-video id="video-mascot2" src="#vid-mascot2" position="0 0 0.35" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-mascot2; transparent: true; side: double"></a-video>
+            <a-video id="video-gosok" src="#vid-gosok" position="0 0 0.45" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-gosok; transparent: true; side: double"></a-video>
+        </a-entity>
+        
+        <!-- Part 3 Container -->
+        <a-entity id="video-container-part3" position="0 0 0" visible="false">
+            <a-video id="video-mascot3" src="#vid-mascot3" position="0 0 0.1" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-mascot3; transparent: true; side: double"></a-video>
+            <a-video id="video-kapal3" src="#vid-kapal3" position="0 0 0.2" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-kapal3; transparent: true; side: double"></a-video>
+            <a-video id="video-sikat" src="#vid-sikat" position="0 0 0.30" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-sikat; transparent: true; side: double"></a-video>
+        </a-entity>
+        
+        <!-- Part 4 Container -->
+        <a-entity id="video-container-part4" position="0 0 0" visible="false">
+            <a-image id="image-lumut4" src="#img-lumut4" position="0 0 0.05" height="1.5" width="1.5" material="transparent: true; alphaTest: 0.5"></a-image>
+            <a-video id="video-mascot4" src="#vid-mascot4" position="0 0 0.1" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-mascot4; transparent: true; side: double"></a-video>
+            <a-video id="video-kapal4" src="#vid-kapal4" position="0 0 0.2" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-kapal4; transparent: true; side: double"></a-video>
+            <a-video id="video-sikat4" src="#vid-sikat4" position="0 0 0.30" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-sikat4; transparent: true; side: double"></a-video>
+        </a-entity>
+        
+        <!-- Part 5 Container -->
+        <a-entity id="video-container-part5" position="0 0 0" visible="false">
+            <a-video id="video-kapal5" src="#vid-kapal5" position="0 0 0.1" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-kapal5; transparent: true; side: double"></a-video>
+            <a-video id="video-orang5" src="#vid-orang5" position="0 0 0.2" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-orang5; transparent: true; side: double"></a-video>
+            <a-video id="video-tangan" src="#vid-tangan" position="0 0 0.30" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-tangan; transparent: true; side: double"></a-video>
+        </a-entity>
+        
+        <!-- Part 6 Container -->
+        <a-entity id="video-container-part6" position="0 0 0" visible="false">
+            <a-video id="video-laut6" src="#vid-laut6" position="0 0 0.1" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-laut6; transparent: true; side: double"></a-video>
+            <a-video id="video-coral" src="#vid-coral" position="0 0 0.2" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-coral; transparent: true; side: double"></a-video>
+            <a-video id="video-mascot6" src="#vid-mascot6" position="0 0 0.30" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-mascot6; transparent: true; side: double"></a-video>
+            <a-video id="video-orang6" src="#vid-orang6" position="0 0 0.40" height="1.5" width="1.5" material="shader: chromakey-advanced; src: #vid-orang6; transparent: true; side: double"></a-video>
+        </a-entity>
+
+        <a-assets>
+            <!-- Part 1 Videos -->
+            <video id="vid-laut" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-batu" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-gelembung" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-kapal" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-mascot" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            
+            <!-- Part 2 Videos -->
+            <video id="vid-batu2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-gelembung2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-mascot2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-gosok" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-orang" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            
+            <!-- Part 3 Videos -->
+            <video id="vid-kapal3" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-mascot3" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-sikat" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            
+            <!-- Part 4 Videos -->
+            <video id="vid-kapal4" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-mascot4" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-sikat4" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            
+            <!-- Part 5 Videos -->
+            <video id="vid-kapal5" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-orang5" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-tangan" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            
+            <!-- Part 4 Image -->
+            <img id="img-lumut4" src="./compressed/LUMUT-v4.PNG" crossorigin="anonymous" />
+            
+            <!-- Part 6 Videos -->
+            <video id="vid-laut6" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-coral" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-mascot6" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            <video id="vid-orang6" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted loop autoplay="false"></video>
+            
+            <!-- Background Audio -->
+            <audio id="sound-v1" src="./sound-v1.MP3" preload="auto" loop></audio>
+            <audio id="sound-v2" src="./sound-v2.MP3" preload="auto" loop></audio>
+        </a-assets>
+    </a-scene>
+
+    <script>
+        // Optimize A-Frame rendering
+        AFRAME.registerComponent('fps-counter', {
+            init: function() {
+                this.lastTime = performance.now();
+                this.frames = 0;
+            },
+            tick: function() {
+                this.frames++;
+                const now = performance.now();
+                if (now >= this.lastTime + 1000) {
+                    console.log('FPS:', this.frames);
+                    this.frames = 0;
+                    this.lastTime = now;
+                }
+            }
+        });
+        
+        // Chromakey Shaders
+        AFRAME.registerShader('chromakey-advanced', {
+            schema: { src: {type: 'map'} },
+            init: function(data) {
+                const videoTexture = new THREE.VideoTexture(data.src);
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
+                videoTexture.format = THREE.RGBAFormat;
+                videoTexture.generateMipmaps = false;
+                videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+                videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+                this.material = new THREE.ShaderMaterial({
+                    uniforms: { tex: {value: videoTexture} },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform sampler2D tex;
+                        varying vec2 vUv;
+                        void main() {
+                            vec4 color = texture2D(tex, vUv);
+                            float greenDominance = color.g - max(color.r, color.b);
+                            float isGreen = 0.0;
+                            if (color.g > 0.4 && color.g > color.r * 1.2 && color.g > color.b * 1.2) isGreen = 1.0;
+                            if (color.g > 0.6 && greenDominance > 0.2) isGreen = 1.0;
+                            if (greenDominance > 0.15 && color.g > 0.35) isGreen = 1.0;
+                            float alpha = 1.0 - isGreen;
+                            if (greenDominance > 0.1 && greenDominance < 0.25 && color.g > 0.3) {
+                                float smoothFactor = smoothstep(0.1, 0.25, greenDominance);
+                                alpha = 1.0 - smoothFactor;
+                            }
+                            vec3 finalColor = color.rgb;
+                            if (alpha > 0.1 && alpha < 0.9 && greenDominance > 0.05) {
+                                float despillStrength = (1.0 - alpha) * 0.7;
+                                finalColor.g = mix(finalColor.g, (finalColor.r + finalColor.b) * 0.5, despillStrength);
+                            }
+                            if (alpha > 0.5 && greenDominance > 0.05) finalColor.g *= 0.9;
+                            gl_FragColor = vec4(finalColor, alpha);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    depthWrite: false
+                });
+            }
+        });
+
+        AFRAME.registerShader('chromakey-gentle', {
+            schema: { src: {type: 'map'} },
+            init: function(data) {
+                const videoTexture = new THREE.VideoTexture(data.src);
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
+                videoTexture.format = THREE.RGBAFormat;
+                videoTexture.generateMipmaps = false;
+                videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+                videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+                this.material = new THREE.ShaderMaterial({
+                    uniforms: { tex: {value: videoTexture} },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform sampler2D tex;
+                        varying vec2 vUv;
+                        void main() {
+                            vec4 color = texture2D(tex, vUv);
+                            float greenDominance = color.g - max(color.r, color.b);
+                            float isGreen = 0.0;
+                            if (color.g > 0.5 && color.g > color.r * 1.4 && color.g > color.b * 1.4) isGreen = 1.0;
+                            if (color.g > 0.7 && greenDominance > 0.3) isGreen = 1.0;
+                            if (greenDominance > 0.2 && color.g > 0.45) isGreen = 1.0;
+                            float alpha = 1.0 - isGreen;
+                            if (greenDominance > 0.15 && greenDominance < 0.3 && color.g > 0.4) {
+                                float smoothFactor = smoothstep(0.15, 0.3, greenDominance);
+                                alpha = 1.0 - smoothFactor;
+                            }
+                            vec3 finalColor = color.rgb;
+                            if (alpha > 0.2 && alpha < 0.9 && greenDominance > 0.1) {
+                                float despillStrength = (1.0 - alpha) * 0.5;
+                                finalColor.g = mix(finalColor.g, (finalColor.r + finalColor.b) * 0.5, despillStrength);
+                            }
+                            if (alpha > 0.6 && greenDominance > 0.08) finalColor.g *= 0.95;
+                            gl_FragColor = vec4(finalColor, alpha);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    depthWrite: false
+                });
+            }
+        });
+
+        // Shader khusus untuk GELEMBUNG - lebih preserve detail transparan
+        AFRAME.registerShader('chromakey-bubble', {
+            schema: { src: {type: 'map'} },
+            init: function(data) {
+                const videoTexture = new THREE.VideoTexture(data.src);
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
+                videoTexture.format = THREE.RGBAFormat;
+                videoTexture.generateMipmaps = false;
+                videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+                videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+                this.material = new THREE.ShaderMaterial({
+                    uniforms: { 
+                        tex: {value: videoTexture},
+                        brightness: {value: 1.3}
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform sampler2D tex;
+                        uniform float brightness;
+                        varying vec2 vUv;
+                        void main() {
+                            vec4 color = texture2D(tex, vUv);
+                            float greenDominance = color.g - max(color.r, color.b);
+                            float isGreen = 0.0;
+                            if (color.g > 0.6 && color.g > color.r * 1.5 && color.g > color.b * 1.5) isGreen = 1.0;
+                            if (color.g > 0.75 && greenDominance > 0.35) isGreen = 1.0;
+                            float alpha = 1.0 - isGreen;
+                            if (greenDominance > 0.25 && greenDominance < 0.4 && color.g > 0.5) {
+                                float smoothFactor = smoothstep(0.25, 0.4, greenDominance);
+                                alpha = 1.0 - smoothFactor;
+                            }
+                            vec3 finalColor = color.rgb;
+                            if (alpha > 0.3 && alpha < 0.85 && greenDominance > 0.15) {
+                                float despillStrength = (1.0 - alpha) * 0.3;
+                                finalColor.g = mix(finalColor.g, (finalColor.r + finalColor.b) * 0.5, despillStrength);
+                            }
+                            if (alpha > 0.1) {
+                                finalColor *= brightness;
+                                finalColor = clamp(finalColor, 0.0, 1.0);
+                            }
+                            gl_FragColor = vec4(finalColor, alpha);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    depthWrite: false,
+                    blending: THREE.NormalBlending
+                });
+            }
+        });
+
+        // Set video sources and force load
+        const cacheBuster = Date.now();
+        
+        const videoElements = {
+            'vid-laut': `./compressed/LAUT-v1.mp4?t=${cacheBuster}`,
+            'vid-batu': `./compressed/BATU SEAWEED-v1.mp4?t=${cacheBuster}`,
+            'vid-gelembung': `./compressed/GELEMBUNG-v1.mp4?t=${cacheBuster}`,
+            'vid-kapal': `./compressed/KAPAL SELAM-v1.mp4?t=${cacheBuster}`,
+            'vid-mascot': `./compressed/MASCOT-v1.mp4?t=${cacheBuster}`,
+            'vid-batu2': `./compressed/BATU SEAWEED-v2.mp4?t=${cacheBuster}`,
+            'vid-gelembung2': `./compressed/GELEMBUNG-v2.mp4?t=${cacheBuster}`,
+            'vid-mascot2': `./compressed/MASCOT-v2.mp4?t=${cacheBuster}`,
+            'vid-gosok': `./compressed/GOSOK GIGI-v2.mp4?t=${cacheBuster}`,
+            'vid-orang': `./compressed/ORANG-v2.mp4?t=${cacheBuster}`,
+            'vid-kapal3': `./compressed/KAPAL SELAM-v3.mp4?t=${cacheBuster}`,
+            'vid-mascot3': `./compressed/MASCOT-v3.mp4?t=${cacheBuster}`,
+            'vid-sikat': `./compressed/SIKAT GIGI-v3.mp4?t=${cacheBuster}`,
+            'vid-kapal4': `./compressed/KAPAL SELAM-v4.mp4?t=${cacheBuster}`,
+            'vid-mascot4': `./compressed/MASCOT-v4.mp4?t=${cacheBuster}`,
+            'vid-sikat4': `./compressed/SIKAT GIGI-v4.mp4?t=${cacheBuster}`,
+            'vid-kapal5': `./compressed/KAPAL SELAM-v5.mp4?t=${cacheBuster}`,
+            'vid-orang5': `./compressed/ORANG-v5.mp4?t=${cacheBuster}`,
+            'vid-tangan': `./compressed/TANGAN-v5.mp4?t=${cacheBuster}`,
+            'vid-laut6': `./compressed/LAUT-v6.mp4?t=${cacheBuster}`,
+            'vid-coral': `./compressed/CORAL-v6.mp4?t=${cacheBuster}`,
+            'vid-mascot6': `./compressed/MASCOT-v6.mp4?t=${cacheBuster}`,
+            'vid-orang6': `./compressed/ORANG-v6.mp4?t=${cacheBuster}`
+        };
+        
+        // Set sources and force preload
+        let videosReady = 0;
+        const totalVideos = Object.keys(videoElements).length;
+        const loadingInfo = document.getElementById('loadingInfo');
+        const loadingProgress = document.getElementById('loadingProgress');
+        
+        Object.keys(videoElements).forEach(id => {
+            const video = document.getElementById(id);
+            video.src = videoElements[id];
+            video.load(); // Force load
+            
+            // Wait for video to be ready
+            video.addEventListener('canplaythrough', () => {
+                videosReady++;
+                loadingProgress.textContent = `${videosReady}/${totalVideos}`;
+                console.log(`📹 ${id} ready (${videosReady}/${totalVideos})`);
+                
+                if (videosReady >= totalVideos) {
+                    setTimeout(() => {
+                        loadingInfo.classList.add('hidden');
+                        console.log('✅ All videos ready!');
+                    }, 500);
+                }
+            }, { once: true });
+        });
+
+        // Custom orbit controls - KAMERA ORBIT, OBJEK DIEM DI (0,0,0)
+        AFRAME.registerComponent('orbit-controls', {
+            schema: {
+                enabled: { type: 'boolean', default: true },
+                target: { type: 'vec3', default: { x: 0, y: 0, z: 0 } },
+                minDistance: { type: 'number', default: 1 },
+                maxDistance: { type: 'number', default: 10 },
+                rotateSpeed: { type: 'number', default: 0.005 }
+            },
+            init: function() {
+                this.cameraRig = this.el;
+                this.camera = this.el.querySelector('a-camera');
+                
+                this.spherical = {
+                    theta: 0,  // Horizontal angle
+                    phi: 0     // Vertical angle
+                };
+                
+                this.distance = 3;
+                this.isDragging = false;
+                this.previousMouse = { x: 0, y: 0 };
+                
+                // Mouse events
+                this.onMouseDown = this.onMouseDown.bind(this);
+                this.onMouseMove = this.onMouseMove.bind(this);
+                this.onMouseUp = this.onMouseUp.bind(this);
+                this.onWheel = this.onWheel.bind(this);
+                
+                this.el.sceneEl.canvas.addEventListener('mousedown', this.onMouseDown);
+                this.el.sceneEl.canvas.addEventListener('mousemove', this.onMouseMove);
+                this.el.sceneEl.canvas.addEventListener('mouseup', this.onMouseUp);
+                this.el.sceneEl.canvas.addEventListener('wheel', this.onWheel);
+                
+                // Touch events
+                this.onTouchStart = this.onTouchStart.bind(this);
+                this.onTouchMove = this.onTouchMove.bind(this);
+                this.onTouchEnd = this.onTouchEnd.bind(this);
+                
+                this.el.sceneEl.canvas.addEventListener('touchstart', this.onTouchStart);
+                this.el.sceneEl.canvas.addEventListener('touchmove', this.onTouchMove);
+                this.el.sceneEl.canvas.addEventListener('touchend', this.onTouchEnd);
+            },
+            
+            onMouseDown: function(e) {
+                this.isDragging = true;
+                this.previousMouse = { x: e.clientX, y: e.clientY };
+            },
+            
+            onMouseMove: function(e) {
+                if (!this.isDragging) return;
+                
+                const deltaX = e.clientX - this.previousMouse.x;
+                const deltaY = e.clientY - this.previousMouse.y;
+                
+                this.spherical.theta -= deltaX * this.data.rotateSpeed;
+                this.spherical.phi -= deltaY * this.data.rotateSpeed;
+                
+                // Clamp phi to prevent flipping
+                this.spherical.phi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, this.spherical.phi));
+                
+                this.updateCameraPosition();
+                
+                this.previousMouse = { x: e.clientX, y: e.clientY };
+            },
+            
+            onMouseUp: function() {
+                this.isDragging = false;
+            },
+            
+            onWheel: function(e) {
+                e.preventDefault();
+                this.distance += e.deltaY * 0.01;
+                this.distance = Math.max(this.data.minDistance, Math.min(this.data.maxDistance, this.distance));
+                this.updateCameraPosition();
+            },
+            
+            onTouchStart: function(e) {
+                if (e.touches.length === 1) {
+                    this.isDragging = true;
+                    this.previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            },
+            
+            onTouchMove: function(e) {
+                if (!this.isDragging || e.touches.length !== 1) return;
+                
+                const deltaX = e.touches[0].clientX - this.previousMouse.x;
+                const deltaY = e.touches[0].clientY - this.previousMouse.y;
+                
+                this.spherical.theta -= deltaX * this.data.rotateSpeed;
+                this.spherical.phi -= deltaY * this.data.rotateSpeed;
+                
+                // Clamp phi
+                this.spherical.phi = Math.max(-Math.PI / 2 + 0.1, Math.min(Math.PI / 2 - 0.1, this.spherical.phi));
+                
+                this.updateCameraPosition();
+                
+                this.previousMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            },
+            
+            onTouchEnd: function() {
+                this.isDragging = false;
+            },
+            
+            updateCameraPosition: function() {
+                // Convert spherical to Cartesian coordinates
+                // Camera orbits around target (0, 0, 0)
+                const x = this.distance * Math.cos(this.spherical.phi) * Math.sin(this.spherical.theta);
+                const y = this.distance * Math.sin(this.spherical.phi);
+                const z = this.distance * Math.cos(this.spherical.phi) * Math.cos(this.spherical.theta);
+                
+                // Update camera rig position (camera orbits around origin)
+                this.cameraRig.object3D.position.set(x, y, z);
+                
+                // Look at target (0, 0, 0)
+                this.cameraRig.object3D.lookAt(this.data.target.x, this.data.target.y, this.data.target.z);
+            }
+        });
+
+        // Apply orbit controls to camera rig
+        const cameraRig = document.getElementById('camera-rig');
+        cameraRig.setAttribute('orbit-controls', '');
+
+        // Audio elements
+        const soundV1 = document.getElementById('sound-v1');
+        const soundV2 = document.getElementById('sound-v2');
+
+        const videosPart1 = [
+            document.getElementById('vid-laut'),
+            document.getElementById('vid-kapal'),
+            document.getElementById('vid-batu'),
+            document.getElementById('vid-gelembung'),
+            document.getElementById('vid-mascot')
+        ];
+        
+        const videosPart2 = [
+            document.getElementById('vid-batu2'),
+            document.getElementById('vid-gelembung2'),
+            document.getElementById('vid-mascot2'),
+            document.getElementById('vid-gosok'),
+            document.getElementById('vid-orang')
+        ];
+        
+        const videosPart3 = [
+            document.getElementById('vid-kapal3'),
+            document.getElementById('vid-mascot3'),
+            document.getElementById('vid-sikat')
+        ];
+        
+        const videosPart4 = [
+            document.getElementById('vid-kapal4'),
+            document.getElementById('vid-mascot4'),
+            document.getElementById('vid-sikat4')
+        ];
+        
+        const videosPart5 = [
+            document.getElementById('vid-kapal5'),
+            document.getElementById('vid-orang5'),
+            document.getElementById('vid-tangan')
+        ];
+        
+        const videosPart6 = [
+            document.getElementById('vid-laut6'),
+            document.getElementById('vid-coral'),
+            document.getElementById('vid-mascot6'),
+            document.getElementById('vid-orang6')
+        ];
+
+        const containerPart1 = document.querySelector('#video-container-part1');
+        const containerPart2 = document.querySelector('#video-container-part2');
+        const containerPart3 = document.querySelector('#video-container-part3');
+        const containerPart4 = document.querySelector('#video-container-part4');
+        const containerPart5 = document.querySelector('#video-container-part5');
+        const containerPart6 = document.querySelector('#video-container-part6');
+        const btnPart1 = document.getElementById('btnPart1');
+        const btnPart2 = document.getElementById('btnPart2');
+        const btnPart3 = document.getElementById('btnPart3');
+        const btnPart4 = document.getElementById('btnPart4');
+        const btnPart5 = document.getElementById('btnPart5');
+        const btnPart6 = document.getElementById('btnPart6');
+        const info = document.getElementById('info');
+
+        let currentPart = 0;
+        let isTransitioning = false;
+
+        // Audio fade functions
+        function fadeAudioIn(audio, duration) {
+            const steps = 30;
+            const stepDuration = duration / steps;
+            const volumeStep = 1.0 / steps;
+            let currentStep = 0;
+            
+            audio.volume = 0;
+            
+            const fadeInterval = setInterval(() => {
+                currentStep++;
+                audio.volume = Math.min(currentStep * volumeStep, 1.0);
+                
+                if (currentStep >= steps) {
+                    clearInterval(fadeInterval);
+                    audio.volume = 1.0;
+                }
+            }, stepDuration);
+        }
+        
+        function fadeAudioOut(audio, duration) {
+            const steps = 20;
+            const stepDuration = duration / steps;
+            const volumeStep = audio.volume / steps;
+            let currentStep = steps;
+            
+            const fadeInterval = setInterval(() => {
+                currentStep--;
+                audio.volume = Math.max(currentStep * volumeStep, 0);
+                
+                if (currentStep <= 0) {
+                    clearInterval(fadeInterval);
+                    audio.volume = 0;
+                    audio.pause();
+                }
+            }, stepDuration);
+        }
+
+        // Animasi fade untuk transisi smooth menggunakan A-Frame animation
+        function fadeOutContainer(container, duration, callback) {
+            // Set animation untuk fade out
+            container.setAttribute('animation', {
+                property: 'scale',
+                from: '1 1 1',
+                to: '0.8 0.8 0.8',
+                dur: duration,
+                easing: 'easeInQuad'
+            });
+            
+            container.setAttribute('animation__opacity', {
+                property: 'opacity',
+                from: 1,
+                to: 0,
+                dur: duration,
+                easing: 'easeInQuad'
+            });
+            
+            setTimeout(() => {
+                container.setAttribute('visible', false);
+                container.removeAttribute('animation');
+                container.removeAttribute('animation__opacity');
+                if (callback) callback();
+            }, duration);
+        }
+        
+        function fadeInContainer(container, duration) {
+            container.setAttribute('visible', true);
+            container.setAttribute('scale', '0.8 0.8 0.8');
+            container.setAttribute('opacity', 0);
+            
+            // Set animation untuk fade in
+            container.setAttribute('animation', {
+                property: 'scale',
+                from: '0.8 0.8 0.8',
+                to: '1 1 1',
+                dur: duration,
+                easing: 'easeOutQuad'
+            });
+            
+            container.setAttribute('animation__opacity', {
+                property: 'opacity',
+                from: 0,
+                to: 1,
+                dur: duration,
+                easing: 'easeOutQuad'
+            });
+            
+            setTimeout(() => {
+                container.removeAttribute('animation');
+                container.removeAttribute('animation__opacity');
+            }, duration);
+        }
+
+        btnPart1.addEventListener('click', () => {
+            if (currentPart === 1 || isTransitioning) return;
+            
+            isTransitioning = true;
+            
+            if (currentPart === 2) {
+                // Fade out Part 2 dulu (stop audio v2)
+                fadeAudioOut(soundV2, 300);
+                
+                fadeOutContainer(containerPart2, 400, () => {
+                    // Stop Part 2
+                    videosPart2.forEach(v => v.pause());
+                    
+                    // Fade in Part 1 dengan audio v1
+                    fadeInContainer(containerPart1, 400);
+                    videosPart1.forEach(v => v.play());
+                    
+                    // Play sound-v1 untuk Part 1
+                    soundV1.currentTime = 0;
+                    soundV1.play().then(() => {
+                        fadeAudioIn(soundV1, 500);
+                    }).catch(e => console.log('Audio v1 play blocked:', e));
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else {
+                // Langsung fade in Part 1 (dari awal) dengan audio v1
+                fadeInContainer(containerPart1, 400);
+                videosPart1.forEach(v => v.play());
+                
+                // Play sound-v1 untuk Part 1
+                soundV1.currentTime = 0;
+                soundV1.play().then(() => {
+                    fadeAudioIn(soundV1, 500);
+                }).catch(e => console.log('Audio v1 play blocked:', e));
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+            
+            currentPart = 1;
+            btnPart1.classList.add('active');
+            btnPart2.classList.remove('active');
+            btnPart3.classList.remove('active');
+            btnPart4.classList.remove('active');
+            btnPart5.classList.remove('active');
+            btnPart6.classList.remove('active');
+            info.textContent = 'Part 1: 5 videos overlay (LAUT, KAPAL, BATU, GELEMBUNG, MASCOT) 🔊';
+        });
+
+        btnPart2.addEventListener('click', () => {
+            if (currentPart === 2 || isTransitioning) return;
+            
+            isTransitioning = true;
+            
+            if (currentPart === 1) {
+                // Fade out Part 1 dulu (stop audio v1)
+                fadeAudioOut(soundV1, 300);
+                
+                fadeOutContainer(containerPart1, 400, () => {
+                    // Stop Part 1
+                    videosPart1.forEach(v => v.pause());
+                    
+                    // Fade in Part 2 dengan audio v2
+                    fadeInContainer(containerPart2, 400);
+                    videosPart2.forEach(v => v.play());
+                    
+                    // Play sound-v2 untuk Part 2
+                    soundV2.currentTime = 0;
+                    soundV2.play().then(() => {
+                        fadeAudioIn(soundV2, 500);
+                    }).catch(e => console.log('Audio v2 play blocked:', e));
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else if (currentPart === 3) {
+                // Fade out Part 3 dulu
+                fadeOutContainer(containerPart3, 400, () => {
+                    // Stop Part 3
+                    videosPart3.forEach(v => v.pause());
+                    
+                    // Fade in Part 2 dengan audio v2
+                    fadeInContainer(containerPart2, 400);
+                    videosPart2.forEach(v => v.play());
+                    
+                    // Play sound-v2 untuk Part 2
+                    soundV2.currentTime = 0;
+                    soundV2.play().then(() => {
+                        fadeAudioIn(soundV2, 500);
+                    }).catch(e => console.log('Audio v2 play blocked:', e));
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else {
+                // Langsung fade in Part 2 (dari awal) dengan audio v2
+                fadeInContainer(containerPart2, 400);
+                videosPart2.forEach(v => v.play());
+                
+                // Play sound-v2 untuk Part 2
+                soundV2.currentTime = 0;
+                soundV2.play().then(() => {
+                    fadeAudioIn(soundV2, 500);
+                }).catch(e => console.log('Audio v2 play blocked:', e));
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+            
+            currentPart = 2;
+            btnPart2.classList.add('active');
+            btnPart1.classList.remove('active');
+            btnPart3.classList.remove('active');
+            btnPart4.classList.remove('active');
+            btnPart5.classList.remove('active');
+            btnPart6.classList.remove('active');
+            info.textContent = 'Part 2: 5 videos overlay (BATU, GELEMBUNG, MASCOT, GOSOK GIGI, ORANG) 🔊';
+        });
+
+        btnPart3.addEventListener('click', () => {
+            if (currentPart === 3 || isTransitioning) return;
+            
+            isTransitioning = true;
+            
+            if (currentPart === 1) {
+                // Fade out Part 1 dulu (stop audio v1)
+                fadeAudioOut(soundV1, 300);
+                
+                fadeOutContainer(containerPart1, 400, () => {
+                    // Stop Part 1
+                    videosPart1.forEach(v => v.pause());
+                    
+                    // Fade in Part 3 (no audio for Part 3)
+                    fadeInContainer(containerPart3, 400);
+                    videosPart3.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else if (currentPart === 2) {
+                // Fade out Part 2 dulu (stop audio v2)
+                fadeAudioOut(soundV2, 300);
+                
+                fadeOutContainer(containerPart2, 400, () => {
+                    // Stop Part 2
+                    videosPart2.forEach(v => v.pause());
+                    
+                    // Fade in Part 3 (no audio for Part 3)
+                    fadeInContainer(containerPart3, 400);
+                    videosPart3.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else if (currentPart === 4) {
+                // Fade out Part 4
+                fadeOutContainer(containerPart4, 400, () => {
+                    // Stop Part 4
+                    videosPart4.forEach(v => v.pause());
+                    
+                    // Fade in Part 3 (no audio for Part 3)
+                    fadeInContainer(containerPart3, 400);
+                    videosPart3.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else {
+                // Langsung fade in Part 3 (dari awal, no audio)
+                fadeInContainer(containerPart3, 400);
+                videosPart3.forEach(v => v.play());
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+            
+            currentPart = 3;
+            btnPart3.classList.add('active');
+            btnPart1.classList.remove('active');
+            btnPart2.classList.remove('active');
+            btnPart4.classList.remove('active');
+            btnPart5.classList.remove('active');
+            btnPart6.classList.remove('active');
+            info.textContent = 'Part 3: 3 videos overlay (KAPAL SELAM, MASCOT, SIKAT GIGI)';
+        });
+
+        btnPart4.addEventListener('click', () => {
+            if (currentPart === 4 || isTransitioning) return;
+            
+            isTransitioning = true;
+            
+            if (currentPart === 1) {
+                // Fade out Part 1 dulu (stop audio v1)
+                fadeAudioOut(soundV1, 300);
+                
+                fadeOutContainer(containerPart1, 400, () => {
+                    // Stop Part 1
+                    videosPart1.forEach(v => v.pause());
+                    
+                    // Fade in Part 4 (no audio for Part 4)
+                    fadeInContainer(containerPart4, 400);
+                    videosPart4.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else if (currentPart === 2) {
+                // Fade out Part 2 dulu (stop audio v2)
+                fadeAudioOut(soundV2, 300);
+                
+                fadeOutContainer(containerPart2, 400, () => {
+                    // Stop Part 2
+                    videosPart2.forEach(v => v.pause());
+                    
+                    // Fade in Part 4 (no audio for Part 4)
+                    fadeInContainer(containerPart4, 400);
+                    videosPart4.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else if (currentPart === 3) {
+                // Fade out Part 3
+                fadeOutContainer(containerPart3, 400, () => {
+                    // Stop Part 3
+                    videosPart3.forEach(v => v.pause());
+                    
+                    // Fade in Part 4 (no audio for Part 4)
+                    fadeInContainer(containerPart4, 400);
+                    videosPart4.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else {
+                // Langsung fade in Part 4 (dari awal, no audio)
+                fadeInContainer(containerPart4, 400);
+                videosPart4.forEach(v => v.play());
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+            
+            currentPart = 4;
+            btnPart4.classList.add('active');
+            btnPart1.classList.remove('active');
+            btnPart2.classList.remove('active');
+            btnPart3.classList.remove('active');
+            btnPart5.classList.remove('active');
+            btnPart6.classList.remove('active');
+            info.textContent = 'Part 4: 3 videos overlay (KAPAL SELAM, MASCOT, SIKAT GIGI)';
+        });
+
+        btnPart5.addEventListener('click', () => {
+            if (currentPart === 5 || isTransitioning) return;
+            
+            isTransitioning = true;
+            
+            // Fade out current part
+            let currentContainer = null;
+            let currentVideos = [];
+            
+            if (currentPart === 1) {
+                currentContainer = containerPart1;
+                currentVideos = videosPart1;
+                fadeAudioOut(soundV1, 300);
+            } else if (currentPart === 2) {
+                currentContainer = containerPart2;
+                currentVideos = videosPart2;
+                fadeAudioOut(soundV2, 300);
+            } else if (currentPart === 3) {
+                currentContainer = containerPart3;
+                currentVideos = videosPart3;
+            } else if (currentPart === 4) {
+                currentContainer = containerPart4;
+                currentVideos = videosPart4;
+            }
+            
+            if (currentContainer) {
+                fadeOutContainer(currentContainer, 400, () => {
+                    currentVideos.forEach(v => v.pause());
+                    
+                    // Fade in Part 5
+                    fadeInContainer(containerPart5, 400);
+                    videosPart5.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else {
+                // Langsung fade in Part 5
+                fadeInContainer(containerPart5, 400);
+                videosPart5.forEach(v => v.play());
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+            
+            currentPart = 5;
+            btnPart5.classList.add('active');
+            btnPart1.classList.remove('active');
+            btnPart2.classList.remove('active');
+            btnPart3.classList.remove('active');
+            btnPart4.classList.remove('active');
+            btnPart6.classList.remove('active');
+            info.textContent = 'Part 5: 3 videos overlay (KAPAL SELAM, ORANG, TANGAN)';
+        });
+
+        btnPart6.addEventListener('click', () => {
+            if (currentPart === 6 || isTransitioning) return;
+            
+            isTransitioning = true;
+            
+            // Fade out current part
+            let currentContainer = null;
+            let currentVideos = [];
+            
+            if (currentPart === 1) {
+                currentContainer = containerPart1;
+                currentVideos = videosPart1;
+                fadeAudioOut(soundV1, 300);
+            } else if (currentPart === 2) {
+                currentContainer = containerPart2;
+                currentVideos = videosPart2;
+                fadeAudioOut(soundV2, 300);
+            } else if (currentPart === 3) {
+                currentContainer = containerPart3;
+                currentVideos = videosPart3;
+            } else if (currentPart === 4) {
+                currentContainer = containerPart4;
+                currentVideos = videosPart4;
+            } else if (currentPart === 5) {
+                currentContainer = containerPart5;
+                currentVideos = videosPart5;
+            }
+            
+            if (currentContainer) {
+                fadeOutContainer(currentContainer, 400, () => {
+                    currentVideos.forEach(v => v.pause());
+                    
+                    // Fade in Part 6
+                    fadeInContainer(containerPart6, 400);
+                    videosPart6.forEach(v => v.play());
+                    
+                    setTimeout(() => {
+                        isTransitioning = false;
+                    }, 400);
+                });
+            } else {
+                // Langsung fade in Part 6
+                fadeInContainer(containerPart6, 400);
+                videosPart6.forEach(v => v.play());
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+            
+            currentPart = 6;
+            btnPart6.classList.add('active');
+            btnPart1.classList.remove('active');
+            btnPart2.classList.remove('active');
+            btnPart3.classList.remove('active');
+            btnPart4.classList.remove('active');
+            btnPart5.classList.remove('active');
+            info.textContent = 'Part 6: 4 videos overlay (LAUT, CORAL, MASCOT, ORANG)';
+        });
+
+        console.log('🎬 Preview ready - Click buttons to preview Part 1, 2, 3, 4, 5, or 6');
+    </script>
+</body>
+</html>
+                            
+                            // Calculate green dominance
+                            float greenDominance = color.g - max(color.r, color.b);
+                            
+                            // More aggressive green detection
+                            float isGreen = 0.0;
+                            
+                            // Primary detection: strong green
+                            if (color.g > 0.4 && color.g > color.r * 1.2 && color.g > color.b * 1.2) {
+                                isGreen = 1.0;
+                            }
+                            
+                            // Secondary detection: very strong green
+                            if (color.g > 0.6 && greenDominance > 0.2) {
+                                isGreen = 1.0;
+                            }
+                            
+                            // Tertiary detection: catch edge greens
+                            if (greenDominance > 0.15 && color.g > 0.35) {
+                                isGreen = 1.0;
+                            }
+                            
+                            // Calculate alpha with smooth edges
+                            float alpha = 1.0 - isGreen;
+                            
+                            // Smooth transition for semi-transparent greens
+                            if (greenDominance > 0.1 && greenDominance < 0.25 && color.g > 0.3) {
+                                float smoothFactor = smoothstep(0.1, 0.25, greenDominance);
+                                alpha = 1.0 - smoothFactor;
+                            }
+                            
+                            // Green spill removal (despill)
+                            vec3 finalColor = color.rgb;
+                            if (alpha > 0.1 && alpha < 0.9 && greenDominance > 0.05) {
+                                float despillStrength = (1.0 - alpha) * 0.7;
+                                finalColor.g = mix(finalColor.g, (finalColor.r + finalColor.b) * 0.5, despillStrength);
+                            }
+                            
+                            // Extra cleanup: remove any remaining green tint
+                            if (alpha > 0.5 && greenDominance > 0.05) {
+                                finalColor.g *= 0.9;
+                            }
+                            
+                            gl_FragColor = vec4(finalColor, alpha);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    depthWrite: false
+                });
+            }
+        });
+
+        AFRAME.registerShader('chromakey-gentle', {
+            schema: { src: {type: 'map'} },
+            init: function(data) {
+                const videoTexture = new THREE.VideoTexture(data.src);
+                videoTexture.minFilter = THREE.LinearFilter;
+                videoTexture.magFilter = THREE.LinearFilter;
+                videoTexture.format = THREE.RGBAFormat;
+                videoTexture.generateMipmaps = false;
+                videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+                videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+                this.material = new THREE.ShaderMaterial({
+                    uniforms: { tex: {value: videoTexture} },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform sampler2D tex;
+                        varying vec2 vUv;
+                        void main() {
+                            vec4 color = texture2D(tex, vUv);
+                            
+                            // Calculate green dominance
+                            float greenDominance = color.g - max(color.r, color.b);
+                            
+                            // Gentler green detection (for BATU SEAWEED)
+                            float isGreen = 0.0;
+                            
+                            // Primary detection: moderate green
+                            if (color.g > 0.5 && color.g > color.r * 1.4 && color.g > color.b * 1.4) {
+                                isGreen = 1.0;
+                            }
+                            
+                            // Secondary detection: strong green
+                            if (color.g > 0.7 && greenDominance > 0.3) {
+                                isGreen = 1.0;
+                            }
+                            
+                            // Tertiary detection: catch edge greens (gentler)
+                            if (greenDominance > 0.2 && color.g > 0.45) {
+                                isGreen = 1.0;
+                            }
+                            
+                            // Calculate alpha with smooth edges
+                            float alpha = 1.0 - isGreen;
+                            
+                            // Smooth transition for semi-transparent greens
+                            if (greenDominance > 0.15 && greenDominance < 0.3 && color.g > 0.4) {
+                                float smoothFactor = smoothstep(0.15, 0.3, greenDominance);
+                                alpha = 1.0 - smoothFactor;
+                            }
+                            
+                            // Green spill removal (gentler despill)
+                            vec3 finalColor = color.rgb;
+                            if (alpha > 0.2 && alpha < 0.9 && greenDominance > 0.1) {
+                                float despillStrength = (1.0 - alpha) * 0.5;
+                                finalColor.g = mix(finalColor.g, (finalColor.r + finalColor.b) * 0.5, despillStrength);
+                            }
+                            
+                            // Extra cleanup: remove any remaining green tint (gentler)
+                            if (alpha > 0.6 && greenDominance > 0.08) {
+                                finalColor.g *= 0.95;
+                            }
+                            
+                            gl_FragColor = vec4(finalColor, alpha);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    depthWrite: false
+                });
+            }
+        });
+
+        // Smooth tracking
+        AFRAME.registerComponent('smooth-tracking', {
+            schema: { smoothing: {type: 'number', default: 0.7} },
+            init: function() {
+                this.targetPosition = new THREE.Vector3();
+                this.targetRotation = new THREE.Euler();
+            },
+            tick: function() {
+                const obj = this.el.object3D;
+                this.targetPosition.lerp(obj.position, 1 - this.data.smoothing);
+                obj.position.copy(this.targetPosition);
+                this.targetRotation.x += (obj.rotation.x - this.targetRotation.x) * (1 - this.data.smoothing);
+                this.targetRotation.y += (obj.rotation.y - this.targetRotation.y) * (1 - this.data.smoothing);
+                this.targetRotation.z += (obj.rotation.z - this.targetRotation.z) * (1 - this.data.smoothing);
+                obj.rotation.copy(this.targetRotation);
+            }
+        });
+
+        // Video elements - OVERLAY MODE (5 videos play together)
+        const videosPart1 = [
+            document.getElementById('vid-laut'),
+            document.getElementById('vid-kapal'),
+            document.getElementById('vid-batu'),
+            document.getElementById('vid-gelembung'),
+            document.getElementById('vid-mascot')
+        ];
+        
+        const videosPart2 = [
+            document.getElementById('vid-batu2'),
+            document.getElementById('vid-gelembung2'),
+            document.getElementById('vid-mascot2'),
+            document.getElementById('vid-gosok'),
+            document.getElementById('vid-orang')
+        ];
+        
+        const allVideos = [...videosPart1, ...videosPart2];
+        
+        const backgroundSound = document.getElementById('background-sound');
+        const containerPart1 = document.querySelector('#video-container-part1');
+        const containerPart2 = document.querySelector('#video-container-part2');
+        const target = document.getElementById('target');
+        const statusBar = document.getElementById('statusBar');
+        const arScene = document.getElementById('arScene');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingProgress = document.getElementById('loadingProgress');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const loadingDetail = document.getElementById('loadingDetail');
+        const startButton = document.getElementById('startButton');
+
+        let videosLoaded = 0;
+        let videosBuffered = 0;
+        let allReady = false;
+        let allFullyBuffered = false;
+        let currentPart = 0; // 0 = not started, 1 = part 1, 2 = part 2
+        let isPlaying = false;
+        let part1Finished = false;
+        let part2Finished = false;
+
+        // Force load audio
+        backgroundSound.load();
+        backgroundSound.preload = 'auto';
+        
+        backgroundSound.addEventListener('loadeddata', () => {
+            console.log('🎵 Background sound loaded');
+        });
+        
+        backgroundSound.addEventListener('canplaythrough', () => {
+            console.log('🎵 Background sound ready to play');
+        });
+        
+        backgroundSound.addEventListener('error', (e) => {
+            console.error('❌ Background sound error:', e);
+        });
+
+        // Force aggressive preloading for ALL videos
+        allVideos.forEach(v => {
+            v.load();
+            v.preload = 'auto';
+        });
+
+        // Track loading - WAIT FOR FULL BUFFER (ALL 10 VIDEOS)
+        allVideos.forEach((video, index) => {
+            video.addEventListener('loadeddata', () => {
+                videosLoaded++;
+                
+                // Update progress dots (10 videos total)
+                const totalVideos = 10;
+                const dots = '●'.repeat(videosLoaded) + '○'.repeat(totalVideos - videosLoaded);
+                loadingProgress.textContent = dots;
+                
+                console.log(`✅ Video ${index + 1} loaded (${videosLoaded}/${totalVideos})`);
+            });
+
+            video.addEventListener('canplaythrough', () => {
+                videosBuffered++;
+                loadingDetail.textContent = videosBuffered === 10 ? 'Siap!' : 'Harap bersabar sebentar';
+                console.log(`📹 Video ${index + 1} buffered (${videosBuffered}/10)`);
+                
+                // Only enable button when ALL 10 videos are fully buffered
+                if (videosBuffered >= 10 && !allFullyBuffered) {
+                    allFullyBuffered = true;
+                    allReady = true;
+                    loadingMessage.textContent = 'Selesai!';
+                    loadingDetail.textContent = 'Silakan mulai pengalaman AR';
+                    startButton.disabled = false;
+                    startButton.textContent = 'Mulai';
+                    startButton.style.background = '#4caf50';
+                    startButton.style.color = 'white';
+                    console.log('🎉 All ready!');
+                }
+            });
+
+            video.addEventListener('error', (e) => {
+                console.error(`❌ Video ${index + 1} error:`, e);
+                loadingDetail.textContent = 'Terjadi kesalahan, coba refresh halaman';
+            });
+            
+            // Monitor buffering during playback
+            video.addEventListener('waiting', () => {
+                console.warn(`⏳ Video ${index + 1} buffering...`);
+            });
+            
+            video.addEventListener('playing', () => {
+                console.log(`▶️ Video ${index + 1} playing`);
+            });
+            
+            video.addEventListener('stalled', () => {
+                console.warn(`⚠️ Video ${index + 1} stalled`);
+            });
+        });
+
+        // Start button - CHECK IF FULLY BUFFERED and ENABLE AUDIO (DON'T PLAY YET!)
+        startButton.addEventListener('click', async () => {
+            if (!allFullyBuffered) {
+                alert('⚠️ Video masih loading, tunggu sampai semua video fully buffered!');
+                return;
+            }
+            
+            console.log('👆 Starting AR...');
+            
+            // Enable audio with user interaction (required by browsers) - BUT DON'T PLAY
+            try {
+                backgroundSound.load();
+                // Just enable, don't play yet
+                console.log('✅ Audio enabled (will play when marker detected)');
+            } catch (e) {
+                console.warn('⚠️ Audio enable failed:', e);
+            }
+            
+            loadingOverlay.classList.add('hidden');
+            arScene.classList.add('ready');
+        });
+
+        // Play Part 1 - 5 videos overlay bersamaan dengan audio
+        async function playPart1() {
+            if (isPlaying || currentPart !== 0) {
+                console.log('⏹️ Already playing');
+                return;
+            }
+            
+            console.log('🎬 Starting Part 1 - 5 videos overlay');
+            currentPart = 1;
+            isPlaying = true;
+            
+            statusBar.textContent = '✅ Part 1 Playing! 🔊';
+            statusBar.classList.add('tracking');
+            
+            // Reset all Part 1 videos
+            videosPart1.forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+            });
+            
+            // Show Part 1 container
+            containerPart1.setAttribute('visible', true);
+            
+            // Start audio
+            try {
+                backgroundSound.pause();
+                backgroundSound.currentTime = 0;
+                backgroundSound.volume = 0;
+                await backgroundSound.play();
+                fadeAudioIn(backgroundSound, 500);
+                console.log('✅ Audio playing!');
+            } catch (e) {
+                console.error('❌ Audio error:', e);
+            }
+            
+            // Play all Part 1 videos together
+            const playPromises = videosPart1.map(v => v.play().catch(e => console.error('Video play error:', e)));
+            await Promise.all(playPromises);
+            
+            console.log('✅ Part 1 playing - 5 videos overlay');
+            
+            // Wait for all videos to end
+            Promise.all(videosPart1.map(v => new Promise(resolve => {
+                v.onended = resolve;
+            }))).then(() => {
+                console.log('✅ Part 1 finished!');
+                isPlaying = false;
+                part1Finished = true;
+                fadeAudioOut(backgroundSound, 400);
+                statusBar.textContent = '✅ Part 1 selesai - Tap layar untuk Part 2 🔄';
+                statusBar.classList.remove('tracking');
+                statusBar.classList.add('finished');
+            });
+        }
+        
+        // Play Part 2 - 5 videos overlay bersamaan tanpa audio
+        async function playPart2() {
+            if (isPlaying || !part1Finished) {
+                console.log('⏹️ Cannot play Part 2 yet');
+                return;
+            }
+            
+            console.log('🎬 Starting Part 2 - 5 videos overlay');
+            currentPart = 2;
+            isPlaying = true;
+            
+            statusBar.textContent = '✅ Part 2 Playing! 🎥';
+            statusBar.classList.add('tracking');
+            statusBar.classList.remove('finished');
+            
+            // Hide Part 1, show Part 2
+            containerPart1.setAttribute('visible', false);
+            containerPart2.setAttribute('visible', true);
+            
+            // Reset all Part 2 videos
+            videosPart2.forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+            });
+            
+            // Play all Part 2 videos together
+            const playPromises = videosPart2.map(v => v.play().catch(e => console.error('Video play error:', e)));
+            await Promise.all(playPromises);
+            
+            console.log('✅ Part 2 playing - 5 videos overlay');
+            
+            // Wait for all videos to end
+            Promise.all(videosPart2.map(v => new Promise(resolve => {
+                v.onended = resolve;
+            }))).then(() => {
+                console.log('✅ Part 2 finished!');
+                isPlaying = false;
+                part2Finished = true;
+                statusBar.textContent = '✅ Semua selesai! 🎉';
+                statusBar.classList.remove('tracking');
+                statusBar.classList.add('finished');
+            });
+        }
+        
+        // Audio fade-in function
+        function fadeAudioIn(audio, duration) {
+            const steps = 30;
+            const stepDuration = duration / steps;
+            const volumeStep = 1.0 / steps;
+            let currentStep = 0;
+            
+            const fadeInterval = setInterval(() => {
+                currentStep++;
+                audio.volume = Math.min(currentStep * volumeStep, 1.0);
+                
+                if (currentStep >= steps) {
+                    clearInterval(fadeInterval);
+                    audio.volume = 1.0;
+                }
+            }, stepDuration);
+        }
+        
+        // Audio fade-out function
+        function fadeAudioOut(audio, duration) {
+            const steps = 20;
+            const stepDuration = duration / steps;
+            const volumeStep = 1.0 / steps;
+            let currentStep = steps;
+            
+            const fadeInterval = setInterval(() => {
+                currentStep--;
+                audio.volume = Math.max(currentStep * volumeStep, 0);
+                
+                if (currentStep <= 0) {
+                    clearInterval(fadeInterval);
+                    audio.volume = 0;
+                    audio.pause();
+                }
+            }, stepDuration);
+        }
+
+        // Target events - Play Part 1 when marker detected
+        target.addEventListener('targetFound', () => {
+            if (currentPart === 0 && !isPlaying) {
+                console.log('🎯 Marker detected - starting Part 1');
+                playPart1();
+            }
+        });
+
+        target.addEventListener('targetLost', () => {
+            console.log('Marker lost - video continues');
+        });
+        
+        // Tap to continue to Part 2 or restart
+        arScene.addEventListener('click', () => {
+            if (part1Finished && !part2Finished && !isPlaying) {
+                console.log('🔄 Screen clicked - starting Part 2...');
+                playPart2();
+            } else if (part2Finished && !isPlaying) {
+                console.log('🔄 Screen clicked - restarting...');
+                restartFromBeginning();
+            }
+        });
+        
+        // Mobile touch
+        arScene.addEventListener('touchend', (e) => {
+            if (part1Finished && !part2Finished && !isPlaying) {
+                e.preventDefault();
+                console.log('🔄 Screen touched - starting Part 2...');
+                playPart2();
+            } else if (part2Finished && !isPlaying) {
+                e.preventDefault();
+                console.log('🔄 Screen touched - restarting...');
+                restartFromBeginning();
+            }
+        });
+        
+        function restartFromBeginning() {
+            console.log('🔄 Restarting from beginning...');
+            
+            // Hide both containers
+            containerPart1.setAttribute('visible', false);
+            containerPart2.setAttribute('visible', false);
+            
+            // Reset all videos
+            allVideos.forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+            });
+            
+            // Reset audio
+            backgroundSound.pause();
+            backgroundSound.currentTime = 0;
+            
+            // Reset state
+            currentPart = 0;
+            part1Finished = false;
+            part2Finished = false;
+            isPlaying = false;
+            
+            statusBar.classList.remove('finished');
+            statusBar.textContent = 'Mencari marker...';
+            
+            console.log('✅ Reset complete - ready for Part 1');
+        }
+        
+        // Enable audio on first interaction
+        document.body.addEventListener('click', async () => {
+            if (backgroundSound.paused && currentPart === 0) {
+                try {
+                    await backgroundSound.play();
+                    backgroundSound.pause();
+                    backgroundSound.currentTime = 0;
+                    console.log('✅ Audio enabled');
+                } catch (e) {
+                    console.log('Audio blocked:', e);
+                }
+            }
+        }, { once: true });
+
+        // Smooth tracking
+        target.setAttribute('smooth-tracking', 'smoothing: 0.7');
+
+        console.log('🚀 AR Experience initialized - OVERLAY MODE');
+        console.log('Part 1: 5 videos play together');
+        console.log('Part 2: 5 videos play together');
+        console.log('Part 1 and Part 2: SEPARATED by tap');
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+export const state = {
+    videosLoaded: 0,
+    videosBuffered: 0,
+    allReady: false,
+    allFullyBuffered: false,
+    audioEnabled: false,
+    currentPart: 0,
+    isPlaying: false,
+    isTransitioning: false,
+    part1Finished: false,
+    // part2Finished: false,
+    // part3Finished: false,
+    // part3Finished: false,
+    // part4Finished: false,
+    // part5Finished: false,
+    // part6Finished: false,
+    // part7Finished: false,
+    lastScannedMarker: 0,
+    isMarkerLocked: false,
+    lockedMarker: null,
+    activeMarkerDetection: null,
+    markerIgnoreUntil: 0,
+    MARKER_IGNORE_DURATION: 1000
+};
+
+export const dom = {
+    statusBar: document.getElementById('statusBar'),
+    resetButton: document.getElementById('resetButton'),
+    arScene: document.getElementById('arScene'),
+    loadingOverlay: document.getElementById('loadingOverlay'),
+    loadingProgress: document.getElementById('loadingProgress'),
+    loadingMessage: document.getElementById('loadingMessage'),
+    loadingDetail: document.getElementById('loadingDetail'),
+    startButton: document.getElementById('startButton'),
+    
+    containerPart1: document.querySelector('#video-container-part1'),
+    // containerPart2: document.querySelector('#video-container-part2'),
+    // containerPart3: document.querySelector('#video-container-part3'),
+    // containerPart4: document.querySelector('#video-container-part4'),
+    // containerPart5: document.querySelector('#video-container-part5'),
+    // containerPart6: document.querySelector('#video-container-part6'),
+    // containerPart7: document.querySelector('#video-container-part7'),
+    
+    target1: document.getElementById('target1'),
+    // target2: document.getElementById('target2'),
+    // target3: document.getElementById('target3'),
+    // target4: document.getElementById('target4'),
+    // target5: document.getElementById('target5'),
+    // target6: document.getElementById('target6'),
+    // target7: document.getElementById('target7'),
+    
+    soundV1: document.getElementById('sound-v1'),
+    // soundV2: document.getElementById('sound-v2'),
+    // soundV3: document.getElementById('sound-v3'),
+    // soundV4: document.getElementById('sound-v4'),
+    // soundV5: document.getElementById('sound-v5'),
+    // soundV6: document.getElementById('sound-v6'),
+    // soundV7: document.getElementById('sound-v7')
+};
+
+export const videos = {
+    part1: [
+        document.getElementById('vid-bakteri'), document.getElementById('vid-balon-bebek'),
+        document.getElementById('vid-kolam-renang'), document.getElementById('vid-mascot'),
+        document.getElementById('vid-muntah'), document.getElementById('vid-orang-gigi')
+    ],
+    // part2: [
+    //     document.getElementById(''), document.getElementById(''),
+    //     document.getElementById(''), document.getElementById(''),
+    //     document.getElementById('')
+    // ],
+    // part3: [
+    //     document.getElementById(''), document.getElementById(''),
+    //     document.getElementById('')
+    // ],
+    // part4: [
+    //     document.getElementById(''), document.getElementById(''),
+    //     document.getElementById('')
+    // ],
+    // part5: [
+    //     document.getElementById(''), document.getElementById('')
+    // ],
+    // part6: [
+    //     document.getElementById(''), document.getElementById(''),
+    //     document.getElementById(''), document.getElementById('')
+    // ],
+    // part7: [
+    //     document.getElementById(''), document.getElementById(''),
+    //     document.getElementById(''), document.getElementById('')
+    // ]
+};
+
+export const allVideos = [...videos.part1 ];

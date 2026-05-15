@@ -1,0 +1,5 @@
+raw/
+sounds/**/raw-sounds
+
+.DS_Store
+Thumbs.db
