@@ -19,15 +19,14 @@ def compress_video_ultra(input_path, output_path):
         cmd = [
             'ffmpeg',
             '-i', input_path,
-            '-c:v', 'libx264',  # Codec H.264
-            '-crf', '30',  # Constant Rate Factor (23 default, 30 = lebih kecil)
-            '-preset', 'slow',  # Preset slow untuk kompresi lebih baik
-            '-vf', 'scale=iw*0.75:ih*0.75',  # Kurangi resolusi 25%
-            '-r', '24',  # Frame rate 24fps
-            '-c:a', 'aac',  # Audio codec
-            '-b:a', '96k',  # Audio bitrate rendah
-            '-movflags', '+faststart',  # Optimasi untuk streaming
-            '-y',  # Overwrite output
+            '-c:v', 'libx264',          # Codec H.264 (Aman untuk semua browser)
+            '-crf', '30',               # Kompresi tinggi (File kecil)
+            '-preset', 'slow',          # Kualitas kompresi rapi
+            '-vf', 'scale=960:960',     # Pangkas resolusi raksasa!
+            '-r', '24',                 # Turunkan frame rate agar enteng
+            '-an',                      # PENTING: Buang total pita suara agar RAM HP lega!
+            '-movflags', '+faststart',  # Optimasi agar video AR langsung muncul (tanpa loading lama)
+            '-y',                       # Timpa file jika sudah ada
             output_path
         ]
         
