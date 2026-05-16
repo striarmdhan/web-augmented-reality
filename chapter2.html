@@ -92,6 +92,18 @@
             </a-entity>
         </a-entity>
 
+        <!-- Part 4 -->
+        <a-entity id="target4" mindar-image-target="targetIndex: 3">
+            <a-entity id="video-container-part4" visible="false">
+                <a-video id="video-gigi-orang-part4-v1" src="#vid-gigi-orang-part4-v1" position="0 0 0.001" height="1.5" width="1.5"
+                    material="shader: chromakey-exception; src: #vid-gigi-orang-part4-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-bakteri-part4-v1" src="#vid-bakteri-part4-v1" position="0 0 0.002" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-bakteri-part4-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-wadah-putih-part4-v1" src="#vid-wadah-putih-part4-v1" position="0 0 0.003" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-wadah-putih-part4-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
         <a-assets>
             <!-- Part 1 -->
             <video id="vid-bakteri-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
@@ -115,10 +127,16 @@
             <video id="vid-tangan-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             <video id="vid-kertas-biru-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             <video id="vid-mascot-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 4 -->
+            <video id="vid-gigi-orang-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-bakteri-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-wadah-putih-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             
             <audio id="sound-v1" src="./sounds/chapter2/output-sounds/sound-v1.MP3" preload="auto"></audio>
             <audio id="sound-v2" src="./sounds/chapter2/output-sounds/sound-v2.MP3" preload="auto"></audio>
             <audio id="sound-v3" src="./sounds/chapter2/output-sounds/sound-v3.MP3" preload="auto"></audio>
+            <audio id="sound-v4" src="./sounds/chapter2/output-sounds/sound-v4.MP3" preload="auto"></audio>
         </a-assets>
     </a-scene>
 

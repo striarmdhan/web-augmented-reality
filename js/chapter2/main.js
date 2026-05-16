@@ -4,6 +4,7 @@ import { state, dom, allVideos } from "./state.js";
 import { playPart1, initPart1 } from './parts/part1.js';
 import { playPart2, initPart2 } from './parts/part2.js';
 import { playPart3, initPart3 } from './parts/part3.js';
+import { playPart4, initPart4 } from "./parts/part4.js";
 
 
 const cacheBuster = Date.now();
@@ -32,8 +33,13 @@ document.getElementById("vid-tangan-part3-v1").src = `./compressed_ultra-videos/
 document.getElementById("vid-kertas-biru-part3-v1").src = `./compressed_ultra-videos/chapter2/part3/kertas biru.mp4?t=${cacheBuster}`;
 document.getElementById("vid-mascot-part3-v1").src = `./compressed_ultra-videos/chapter2/part3/mascot.mp4?t=${cacheBuster}`;
 
+// part 4
+document.getElementById("vid-gigi-orang-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/gigi orang.mp4?t=${cacheBuster}`;
+document.getElementById("vid-bakteri-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/bakteri.mp4?t=${cacheBuster}`;
+document.getElementById("vid-wadah-putih-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/wadah putih.mp4?t=${cacheBuster}`;
+
 // FORCE LOAD AUDIO & VIDEO
-[dom.soundV1, dom.soundV2, dom.soundV3].forEach((s) => {
+[dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4].forEach((s) => {
     s.load(); s.preload = "auto";
 });
 
@@ -42,7 +48,7 @@ allVideos.forEach((v) => {
 });
 
 // SESUAIKAN JUMLAH VIDEO DARI SELURUH PART (SAAT INI 6 UTK PART 1)
-const totalVideos = 17;
+const totalVideos = 20;
 
 allVideos.forEach((video, index) => {
     video.addEventListener("loadeddata", () => {
@@ -72,7 +78,7 @@ dom.startButton.addEventListener("click", async () => {
     if (!state.allFullyBuffered) return;
 
     try {
-        const sounds = [dom.soundV1, dom.soundV2, dom.soundV3];
+        const sounds = [dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4];
         for (let sound of sounds) {
             sound.muted = true;
             await sound.play();
@@ -91,7 +97,8 @@ dom.startButton.addEventListener("click", async () => {
     initPart1(); 
     initPart2();
     initPart3(); 
-    // initPart4(); initPart5(); initPart6(); initPart7();
+    initPart4(); 
+    // initPart5(); initPart6(); initPart7();
 });
 
 export function replayPart(partNumber) {
@@ -102,8 +109,8 @@ export function replayPart(partNumber) {
     }
 
     state.lastScannedMarker = 0;
-    const playActions = { 1: playPart1, 2: playPart2, 3: playPart3 };
-    const stateKeys = { 1: 'part1Finished', 2: 'part2Finished', 3: 'part3Finished' };
+    const playActions = { 1: playPart1, 2: playPart2, 3: playPart3, 4: playPart4 };
+    const stateKeys = { 1: 'part1Finished', 2: 'part2Finished', 3: 'part3Finished', 4: 'part4Finished' };
 
     const stateKey = stateKeys[partNumber];
     const wasFinished = state[stateKey];
@@ -122,13 +129,16 @@ export function replayPart(partNumber) {
 }
 
 export function restartFromBeginning() {
-    const allContainers = [ dom.containerPart1, dom.containerPart2, dom.containerPart3 ];
+    const allContainers = [ dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4 ];
     allContainers.forEach((c) => c.setAttribute("visible", false));
 
     allVideos.forEach((v) => { v.pause(); v.currentTime = 0; });
 
     state.currentPart = 0;
+
     state.part1Finished = false; state.part2Finished = false; state.part3Finished = false;
+    state.part4Finished = false;
+
     state.isPlaying = false;
     state.lastScannedMarker = 0;
 

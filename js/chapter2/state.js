@@ -10,8 +10,7 @@ export const state = {
     part1Finished: false,
     part2Finished: false,
     part3Finished: false,
-    // part3Finished: false,
-    // part4Finished: false,
+    part4Finished: false,
     // part5Finished: false,
     // part6Finished: false,
     // part7Finished: false,
@@ -36,7 +35,7 @@ export const dom = {
     containerPart1: document.querySelector('#video-container-part1'),
     containerPart2: document.querySelector('#video-container-part2'),
     containerPart3: document.querySelector('#video-container-part3'),
-    // containerPart4: document.querySelector('#video-container-part4'),
+    containerPart4: document.querySelector('#video-container-part4'),
     // containerPart5: document.querySelector('#video-container-part5'),
     // containerPart6: document.querySelector('#video-container-part6'),
     // containerPart7: document.querySelector('#video-container-part7'),
@@ -44,7 +43,7 @@ export const dom = {
     target1: document.getElementById('target1'),
     target2: document.getElementById('target2'),
     target3: document.getElementById('target3'),
-    // target4: document.getElementById('target4'),
+    target4: document.getElementById('target4'),
     // target5: document.getElementById('target5'),
     // target6: document.getElementById('target6'),
     // target7: document.getElementById('target7'),
@@ -52,7 +51,7 @@ export const dom = {
     soundV1: document.getElementById('sound-v1'),
     soundV2: document.getElementById('sound-v2'),
     soundV3: document.getElementById('sound-v3'),
-    // soundV4: document.getElementById('sound-v4'),
+    soundV4: document.getElementById('sound-v4'),
     // soundV5: document.getElementById('sound-v5'),
     // soundV6: document.getElementById('sound-v6'),
     // soundV7: document.getElementById('sound-v7')
@@ -74,10 +73,10 @@ export const videos = {
         document.getElementById('vid-gigi-orang-part3-v1'), document.getElementById('vid-tangan-part3-v1'), 
         document.getElementById('vid-kertas-biru-part3-v1'), document.getElementById('vid-mascot-part3-v1')
     ],
-    // part4: [
-    //     document.getElementById(''), document.getElementById(''),
-    //     document.getElementById('')
-    // ],
+    part4: [
+        document.getElementById('vid-gigi-orang-part4-v1'), document.getElementById('vid-bakteri-part4-v1'),
+        document.getElementById('vid-wadah-putih-part4-v1')
+    ],
     // part5: [
     //     document.getElementById(''), document.getElementById('')
     // ],
@@ -91,4 +90,4 @@ export const videos = {
     // ]
 };
 
-export const allVideos = [...videos.part1, ...videos.part2, ...videos.part3 ];
+export const allVideos = [...videos.part1, ...videos.part2, ...videos.part3, ...videos.part4 ];

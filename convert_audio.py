@@ -75,7 +75,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # Sesuaikan dengan target foldermu
-    INPUT_DIR = "sounds/bagian2/raw-sounds"
-    OUTPUT_DIR = "sounds/bagian2/output-sounds"
+    INPUT_DIR = "sounds/chapter2/raw-sounds"
+    OUTPUT_DIR = "sounds/chapter2/output-sounds"
     
     convert_to_mp3(INPUT_DIR, OUTPUT_DIR)
