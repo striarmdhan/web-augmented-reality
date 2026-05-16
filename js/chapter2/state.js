@@ -11,9 +11,9 @@ export const state = {
     part2Finished: false,
     part3Finished: false,
     part4Finished: false,
-    // part5Finished: false,
-    // part6Finished: false,
-    // part7Finished: false,
+    part5Finished: false,
+    part6Finished: false,
+    part7Finished: false,
     lastScannedMarker: 0,
     isMarkerLocked: false,
     lockedMarker: null,
@@ -36,25 +36,25 @@ export const dom = {
     containerPart2: document.querySelector('#video-container-part2'),
     containerPart3: document.querySelector('#video-container-part3'),
     containerPart4: document.querySelector('#video-container-part4'),
-    // containerPart5: document.querySelector('#video-container-part5'),
-    // containerPart6: document.querySelector('#video-container-part6'),
-    // containerPart7: document.querySelector('#video-container-part7'),
+    containerPart5: document.querySelector('#video-container-part5'),
+    containerPart6: document.querySelector('#video-container-part6'),
+    containerPart7: document.querySelector('#video-container-part7'),
     
     target1: document.getElementById('target1'),
     target2: document.getElementById('target2'),
     target3: document.getElementById('target3'),
     target4: document.getElementById('target4'),
-    // target5: document.getElementById('target5'),
-    // target6: document.getElementById('target6'),
-    // target7: document.getElementById('target7'),
+    target5: document.getElementById('target5'),
+    target6: document.getElementById('target6'),
+    target7: document.getElementById('target7'),
     
     soundV1: document.getElementById('sound-v1'),
     soundV2: document.getElementById('sound-v2'),
     soundV3: document.getElementById('sound-v3'),
     soundV4: document.getElementById('sound-v4'),
-    // soundV5: document.getElementById('sound-v5'),
-    // soundV6: document.getElementById('sound-v6'),
-    // soundV7: document.getElementById('sound-v7')
+    soundV5: document.getElementById('sound-v5'),
+    soundV6: document.getElementById('sound-v6'),
+    soundV7: document.getElementById('sound-v7')
 };
 
 export const videos = {
@@ -77,17 +77,18 @@ export const videos = {
         document.getElementById('vid-gigi-orang-part4-v1'), document.getElementById('vid-bakteri-part4-v1'),
         document.getElementById('vid-wadah-putih-part4-v1')
     ],
-    // part5: [
-    //     document.getElementById(''), document.getElementById('')
-    // ],
-    // part6: [
-    //     document.getElementById(''), document.getElementById(''),
-    //     document.getElementById(''), document.getElementById('')
-    // ],
-    // part7: [
-    //     document.getElementById(''), document.getElementById(''),
-    //     document.getElementById(''), document.getElementById('')
-    // ]
+    part5: [
+        document.getElementById('vid-air-part5-v1'), document.getElementById('vid-mascot-part5-v1'), 
+        document.getElementById('vid-bola-part5-v1'), document.getElementById('vid-orang-naik-balon-part5-v1')
+    ],
+    part6: [
+        document.getElementById('vid-air-flip-part6-v1'), document.getElementById('vid-gigi-flip-part6-v1'),
+        document.getElementById('vid-mascot-dan-orang-part6-v1')
+    ],
+    part7: [
+        document.getElementById('vid-air-part7-v1'), document.getElementById('vid-bebek-part7-v1'),
+        document.getElementById('vid-orang-part7-v1'), document.getElementById('vid-mascot-part7-v1')
+    ]
 };
 
-export const allVideos = [...videos.part1, ...videos.part2, ...videos.part3, ...videos.part4 ];
+export const allVideos = [ ...videos.part1, ...videos.part2, ...videos.part3, ...videos.part4, ...videos.part5, ...videos.part6, ...videos.part7 ];

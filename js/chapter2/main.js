@@ -5,6 +5,9 @@ import { playPart1, initPart1 } from './parts/part1.js';
 import { playPart2, initPart2 } from './parts/part2.js';
 import { playPart3, initPart3 } from './parts/part3.js';
 import { playPart4, initPart4 } from "./parts/part4.js";
+import { playPart5, initPart5 } from "./parts/part5.js";
+import { playPart6, initPart6 } from "./parts/part6.js";
+import { playPart7, initPart7 } from "./parts/part7.js";
 
 
 const cacheBuster = Date.now();
@@ -38,17 +41,39 @@ document.getElementById("vid-gigi-orang-part4-v1").src = `./compressed_ultra-vid
 document.getElementById("vid-bakteri-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/bakteri.mp4?t=${cacheBuster}`;
 document.getElementById("vid-wadah-putih-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/wadah putih.mp4?t=${cacheBuster}`;
 
+// Part 5
+document.getElementById("vid-air-part5-v1").src = `./compressed_ultra-videos/chapter2/part5/air.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot-part5-v1").src = `./compressed_ultra-videos/chapter2/part5/mascot.mp4?t=${cacheBuster}`;
+document.getElementById("vid-bola-part5-v1").src = `./compressed_ultra-videos/chapter2/part5/bola.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang-naik-balon-part5-v1").src = `./compressed_ultra-videos/chapter2/part5/orang naik balon.mp4?t=${cacheBuster}`;
+
+// Part 6
+document.getElementById("vid-air-flip-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/air - flip.mp4?t=${cacheBuster}`;
+document.getElementById("vid-gigi-flip-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/gigi - flip.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot-dan-orang-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/mascot dan orang.mp4?t=${cacheBuster}`;
+
+// Part 7
+document.getElementById("vid-air-part7-v1").src = `./compressed_ultra-videos/chapter2/part7/air.mp4?t=${cacheBuster}`;
+document.getElementById("vid-bebek-part7-v1").src = `./compressed_ultra-videos/chapter2/part7/bebek.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot-part7-v1").src = `./compressed_ultra-videos/chapter2/part7/mascot.mp4?t=${cacheBuster}`;
+document.getElementById("vid-orang-part7-v1").src = `./compressed_ultra-videos/chapter2/part7/orang.mp4?t=${cacheBuster}`;
+
 // FORCE LOAD AUDIO & VIDEO
-[dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4].forEach((s) => {
+[dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4, dom.soundV5, dom.soundV6, dom.soundV7].forEach((s) => {
     s.load(); s.preload = "auto";
 });
 
-allVideos.forEach((v) => {
-    v.load(); v.preload = "auto";
+allVideos.forEach((v, index) => {
+    if (v) { 
+        v.load(); 
+        v.preload = "auto";
+    } else {
+        console.error(`❌ ERROR: Video urutan ke-${index} di dalam allVideos bernilai NULL! Cek state.js kamu dan pastikan ID-nya ada di HTML.`);
+    }
 });
 
 // SESUAIKAN JUMLAH VIDEO DARI SELURUH PART (SAAT INI 6 UTK PART 1)
-const totalVideos = 20;
+const totalVideos = 31;
 
 allVideos.forEach((video, index) => {
     video.addEventListener("loadeddata", () => {
@@ -78,7 +103,7 @@ dom.startButton.addEventListener("click", async () => {
     if (!state.allFullyBuffered) return;
 
     try {
-        const sounds = [dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4];
+        const sounds = [dom.soundV1, dom.soundV2, dom.soundV3, dom.soundV4, dom.soundV5, dom.soundV6, dom.soundV7];
         for (let sound of sounds) {
             sound.muted = true;
             await sound.play();
@@ -98,7 +123,9 @@ dom.startButton.addEventListener("click", async () => {
     initPart2();
     initPart3(); 
     initPart4(); 
-    // initPart5(); initPart6(); initPart7();
+    initPart5(); 
+    initPart6(); 
+    initPart7();
 });
 
 export function replayPart(partNumber) {
@@ -109,8 +136,8 @@ export function replayPart(partNumber) {
     }
 
     state.lastScannedMarker = 0;
-    const playActions = { 1: playPart1, 2: playPart2, 3: playPart3, 4: playPart4 };
-    const stateKeys = { 1: 'part1Finished', 2: 'part2Finished', 3: 'part3Finished', 4: 'part4Finished' };
+    const playActions = { 1: playPart1, 2: playPart2, 3: playPart3, 4: playPart4, 5: playPart5, 6: playPart6, 7: playPart7 };
+    const stateKeys = { 1: 'part1Finished', 2: 'part2Finished', 3: 'part3Finished', 4: 'part4Finished', 5: 'part5Finished', 6: 'part6Finished', 7: 'part7Finished' };
 
     const stateKey = stateKeys[partNumber];
     const wasFinished = state[stateKey];
@@ -129,7 +156,7 @@ export function replayPart(partNumber) {
 }
 
 export function restartFromBeginning() {
-    const allContainers = [ dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4 ];
+    const allContainers = [ dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4, dom.containerPart5 ];
     allContainers.forEach((c) => c.setAttribute("visible", false));
 
     allVideos.forEach((v) => { v.pause(); v.currentTime = 0; });
@@ -137,7 +164,8 @@ export function restartFromBeginning() {
     state.currentPart = 0;
 
     state.part1Finished = false; state.part2Finished = false; state.part3Finished = false;
-    state.part4Finished = false;
+    state.part4Finished = false; state.part5Finished = false; state.part6Finished = false;
+    state.part7Finished = false;
 
     state.isPlaying = false;
     state.lastScannedMarker = 0;
@@ -154,9 +182,9 @@ const handleInteraction = (e) => {
         } else if (state.currentPart >= 1 && state.currentPart <= 7 && state[`part${state.currentPart}Finished`]) {
             replayPart(state.currentPart);
         } 
-        // else if (state.part7Finished && state.currentPart === 0) {
-        //     restartFromBeginning();
-        // }
+        else if (state.part7Finished && state.currentPart === 0) {
+            restartFromBeginning();
+        }
     }
 };
 
