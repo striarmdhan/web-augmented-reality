@@ -8,7 +8,7 @@ export const state = {
     isPlaying: false,
     isTransitioning: false,
     part1Finished: false,
-    // part2Finished: false,
+    part2Finished: false,
     // part3Finished: false,
     // part3Finished: false,
     // part4Finished: false,
@@ -34,7 +34,7 @@ export const dom = {
     startButton: document.getElementById('startButton'),
     
     containerPart1: document.querySelector('#video-container-part1'),
-    // containerPart2: document.querySelector('#video-container-part2'),
+    containerPart2: document.querySelector('#video-container-part2'),
     // containerPart3: document.querySelector('#video-container-part3'),
     // containerPart4: document.querySelector('#video-container-part4'),
     // containerPart5: document.querySelector('#video-container-part5'),
@@ -42,7 +42,7 @@ export const dom = {
     // containerPart7: document.querySelector('#video-container-part7'),
     
     target1: document.getElementById('target1'),
-    // target2: document.getElementById('target2'),
+    target2: document.getElementById('target2'),
     // target3: document.getElementById('target3'),
     // target4: document.getElementById('target4'),
     // target5: document.getElementById('target5'),
@@ -50,7 +50,7 @@ export const dom = {
     // target7: document.getElementById('target7'),
     
     soundV1: document.getElementById('sound-v1'),
-    // soundV2: document.getElementById('sound-v2'),
+    soundV2: document.getElementById('sound-v2'),
     // soundV3: document.getElementById('sound-v3'),
     // soundV4: document.getElementById('sound-v4'),
     // soundV5: document.getElementById('sound-v5'),
@@ -60,15 +60,15 @@ export const dom = {
 
 export const videos = {
     part1: [
-        document.getElementById('vid-bakteri'), document.getElementById('vid-balon-bebek'),
-        document.getElementById('vid-kolam-renang'), document.getElementById('vid-mascot'),
-        document.getElementById('vid-muntah'), document.getElementById('vid-orang-gigi')
+        document.getElementById('vid-bakteri-part1-v1'), document.getElementById('vid-balon-bebek-part1-v1'),
+        document.getElementById('vid-kolam-renang-part1-v1'), document.getElementById('vid-mascot-part1-v1'),
+        document.getElementById('vid-muntah-part1-v1'), document.getElementById('vid-orang-gigi-part1-v1')
     ],
-    // part2: [
-    //     document.getElementById(''), document.getElementById(''),
-    //     document.getElementById(''), document.getElementById(''),
-    //     document.getElementById('')
-    // ],
+    part2: [
+        document.getElementById('vid-muntah-part2-v1'), document.getElementById('vid-orang-makan-part2-v1'),
+        document.getElementById('vid-kue-part2-v1'), document.getElementById('vid-mascot-part2-v1'),
+        document.getElementById('vid-mascot-part2-v2')
+    ],
     // part3: [
     //     document.getElementById(''), document.getElementById(''),
     //     document.getElementById('')
@@ -90,4 +90,4 @@ export const videos = {
     // ]
 };
 
-export const allVideos = [...videos.part1 ];
+export const allVideos = [...videos.part1, ...videos.part2 ];

@@ -91,7 +91,7 @@ export function initPart1() {
             state.activeMarkerDetection = 1;
             state.markerIgnoreUntil = now + state.MARKER_IGNORE_DURATION;
             
-            // dom.target2.setAttribute('mindar-image-target', 'enabled: false');
+            dom.target2.setAttribute('mindar-image-target', 'enabled: false');
             // dom.target3.setAttribute('mindar-image-target', 'enabled: false');
             // dom.target4.setAttribute('mindar-image-target', 'enabled: false');
             // dom.target5.setAttribute('mindar-image-target', 'enabled: false');
@@ -102,7 +102,7 @@ export function initPart1() {
             
             setTimeout(() => {
                 if (!state.isPlaying) {
-                    // dom.target2.setAttribute('mindar-image-target', 'enabled: true');
+                    dom.target2.setAttribute('mindar-image-target', 'enabled: true');
                     // dom.target3.setAttribute('mindar-image-target', 'enabled: true');
                     // dom.target4.setAttribute('mindar-image-target', 'enabled: true');
                     // dom.target5.setAttribute('mindar-image-target', 'enabled: true');

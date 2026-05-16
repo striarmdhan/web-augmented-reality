@@ -22,7 +22,10 @@ export async function playPart2() {
     dom.statusBar.classList.add('tracking');
     dom.statusBar.classList.remove('finished');
     
-    videos.part2.forEach(v => { v.pause(); v.currentTime = 0; });
+    videos.part2.forEach(v => { 
+        v.pause(); 
+        v.currentTime = 0; 
+    });
     
     const playPromises = videos.part2.map(v => v.play().catch(e => console.error('Video play error:', e)));
     await Promise.all(playPromises);
@@ -39,17 +42,24 @@ export async function playPart2() {
             await dom.soundV2.play();
             fadeAudioIn(dom.soundV2, 400);
         }
-    } catch (e) { console.error('❌ Audio v2 error:', e); }
+    } catch (e) { 
+        console.error('❌ Audio v2 error:', e); 
+    }
     
     state.isTransitioning = false;
     
-    Promise.all(videos.part2.map(v => new Promise(resolve => { v.onended = resolve; }))).then(() => {
+    Promise.all(videos.part2.map(v => new Promise(resolve => { 
+        v.onended = resolve; 
+    }))).then(() => {
         state.isPlaying = false;
         state.part2Finished = true;
         fadeAudioOut(dom.soundV2, 400);
         
         fadeOutContainer(dom.containerPart2, 400, () => {
-            videos.part2.forEach(v => { v.pause(); v.currentTime = 0; });
+            videos.part2.forEach(v => { 
+                v.pause(); 
+                v.currentTime = 0; 
+            });
         });
         
         state.isMarkerLocked = false;
