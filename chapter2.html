@@ -74,6 +74,24 @@
             </a-entity>
         </a-entity>
 
+        <!-- Part 3 -->
+        <a-entity id="target3" mindar-image-target="targetIndex: 2">
+            <a-entity id="video-container-part3" visible="false">
+                <a-video id="video-balon-bebek-part3-v1" src="#vid-balon-bebek-part3-v1" position="0 0 0.001" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-balon-bebek-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-badan-orang-part3-v1" src="#vid-badan-orang-part3-v1" position="0 0 0.002" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-badan-orang-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part3-v1" src="#vid-mascot-part3-v1" position="0 0 0.003" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-mascot-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-gigi-orang-part3-v1" src="#vid-gigi-orang-part3-v1" position="0 0 0.004" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-gigi-orang-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-tangan-part3-v1" src="#vid-tangan-part3-v1" position="0 0 0.005" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-tangan-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-kertas-biru-part3-v1" src="#vid-kertas-biru-part3-v1" position="0 0 0.006" height="1.5" width="1.5"
+                    material="shader: chromakey-advanced; src: #vid-kertas-biru-part3-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
         <a-assets>
             <!-- Part 1 -->
             <video id="vid-bakteri-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
@@ -90,9 +108,17 @@
             <video id="vid-mascot-part2-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             <video id="vid-mascot-part2-v2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
 
+            <!-- Part 3 -->
+            <video id="vid-balon-bebek-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-badan-orang-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-gigi-orang-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-tangan-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-kertas-biru-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             
             <audio id="sound-v1" src="./sounds/chapter2/output-sounds/sound-v1.MP3" preload="auto"></audio>
             <audio id="sound-v2" src="./sounds/chapter2/output-sounds/sound-v2.MP3" preload="auto"></audio>
+            <audio id="sound-v3" src="./sounds/chapter2/output-sounds/sound-v3.MP3" preload="auto"></audio>
         </a-assets>
     </a-scene>
 
