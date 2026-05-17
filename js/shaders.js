@@ -228,6 +228,62 @@ AFRAME.registerShader('chromakey-blue', {
     }
 });
 
+AFRAME.registerShader('blackkey-advanced', {
+    schema: { src: {type: 'map'} },
+    init: function(data) {
+        const videoTexture = new THREE.VideoTexture(data.src);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        videoTexture.format = THREE.RGBAFormat;
+        videoTexture.generateMipmaps = false;
+        videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+        videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+        
+        this.material = new THREE.ShaderMaterial({
+            uniforms: { tex: {value: videoTexture} },
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform sampler2D tex;
+                varying vec2 vUv;
+                void main() {
+                    vec4 color = texture2D(tex, vUv);
+                    
+                    // Cari nilai warna paling terang dari RGB (Mencari tingkat kecerahan/Luminance)
+                    float brightness = max(max(color.r, color.g), color.b);
+                    
+                    // PENGATURAN TOLERANSI HITAM
+                    // threshold: Batas di mana warna dianggap "Hitam BG" (0.05 = hampir hitam pekat)
+                    // smoothing: Tingkat kehalusan pinggiran objek agar tidak bergerigi
+                    float threshold = 0.06;
+                    float smoothing = 0.15;
+                    
+                    // Smoothstep akan membuat alpha 0.0 jika brightness di bawah threshold,
+                    // dan perlahan naik ke 1.0 pada area smoothing.
+                    float alpha = smoothstep(threshold, threshold + smoothing, brightness);
+                    
+                    // Opsional: Untuk mencegah pinggiran objek terlihat kotor/gosong,
+                    // kita bisa menaikkan sedikit kecerahan di area pinggiran transparan
+                    vec3 finalColor = color.rgb;
+                    if (alpha > 0.0 && alpha < 1.0) {
+                        finalColor = finalColor + vec3(0.05); // Tambah sedikit cahaya di pinggiran
+                    }
+
+                    gl_FragColor = vec4(finalColor, alpha);
+                }
+            `,
+            transparent: true,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+    }
+});
+
 AFRAME.registerComponent('smooth-tracking', {
     schema: { smoothing: {type: 'number', default: 0.7} },
     init: function() {
