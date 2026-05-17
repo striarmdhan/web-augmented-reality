@@ -1,5 +1,5 @@
 import { state, dom, videos } from '../state.js';
-import { fadeInContainer, fadeOutContainer, fadeAudioIn, fadeAudioOut, hideAllContainersExcept } from '../utils.js';
+import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept } from '../utils.js';
 
 export async function playPart6() {
     if (state.isPlaying || state.isTransitioning) return;
@@ -9,7 +9,7 @@ export async function playPart6() {
     hideAllContainersExcept(null);
     state.isTransitioning = true;
     
-    const previousContainer = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4, dom.containerPart5, dom.containerPart7].find(c => c.getAttribute('visible') === 'true');
+    const previousContainer = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4, dom.containerPart5, dom.containerPart7].find(c => c && c.getAttribute('visible') === 'true');
     if (previousContainer) {
         fadeOutContainer(previousContainer, 400, async () => { await startPart6Videos(); });
     } else {
@@ -27,15 +27,28 @@ async function startPart6Videos() {
     
     videos.part6.forEach(v => { v.pause(); v.currentTime = 0; });
     
-    const playPromises = videos.part6.map(v => v.play().catch(e => console.error('Video play error:', e)));
+    const playPromises = videos.part6.map(v => v.play().catch(e => console.error('❌ [Part 6] Video play error:', e)));
     await Promise.all(playPromises);
+    
+    // 👇 BLOK FREEZE FRAME DITAMBAHKAN DI SINI 👇
+    videos.part6.forEach(v => {
+        v.addEventListener('timeupdate', function preventBlackScreen() {
+            // Pastikan duration sudah terbaca dan sisa waktu <= 0.2 detik
+            if (this.duration && (this.duration - this.currentTime <= 0.5)) {
+                this.pause(); 
+                this.removeEventListener('timeupdate', preventBlackScreen); // Cabut pemantau
+                console.log('🧊 [Part 6] Video dibekukan di frame terakhir untuk menunggu audio!');
+            }
+        });
+    });
+    // 👆 SELESAI BLOK FREEZE FRAME 👆
     
     await new Promise(r => setTimeout(r, 150));
     fadeInContainer(dom.containerPart6, 400);
     await new Promise(r => setTimeout(r, 50));
     
     try {
-        if (state.audioEnabled) {
+        if (state.audioEnabled && dom.soundV6) {
             dom.soundV6.pause();
             dom.soundV6.currentTime = 0;
             dom.soundV6.volume = 0;
@@ -46,25 +59,34 @@ async function startPart6Videos() {
     
     state.isTransitioning = false;
     
-    Promise.all(videos.part6.map(v => new Promise(resolve => { v.onended = resolve; }))).then(() => {
-        state.isPlaying = false;
-        state.part6Finished = true;
-        fadeAudioOut(dom.soundV6, 400);
-        
-        fadeOutContainer(dom.containerPart6, 400, () => {
-            videos.part6.forEach(v => { v.pause(); v.currentTime = 0; });
-        });
-        
-        state.isMarkerLocked = false;
-        state.lockedMarker = null;
-        
-        dom.statusBar.textContent = '✅ Part 6 selesai - Tap untuk ulang atau scan Marker 7 🎯';
-        dom.statusBar.classList.remove('tracking');
-        dom.statusBar.classList.add('finished');
-    });
+    // TEKNIK SUTRADARA AUDIO
+    if (dom.soundV6) {
+        dom.soundV6.onended = () => {
+            console.log('✅ [Part 6] Audio habis! Menutup adegan...');
+            state.isPlaying = false;
+            state.part6Finished = true;
+            
+            // Fade out layar super cepat (250ms)
+            if (dom.containerPart6) {
+                fadeOutContainer(dom.containerPart6, 250, () => {
+                    videos.part6.forEach(v => { v.pause(); v.currentTime = 0; });
+                    console.log('🧹 [Part 6] Layar dibersihkan.');
+                });
+            }
+            
+            state.isMarkerLocked = false;
+            state.lockedMarker = null;
+            
+            dom.statusBar.textContent = '✅ Part 6 selesai - Tap untuk ulang atau scan Marker 7 🎯';
+            dom.statusBar.classList.remove('tracking');
+            dom.statusBar.classList.add('finished');
+        };
+    }
 }
 
 export function initPart6() {
+    if (!dom.target6) return;
+    
     dom.target6.addEventListener('targetFound', () => {
         const now = Date.now();
         if (now < state.markerIgnoreUntil && state.activeMarkerDetection !== 6) return;
@@ -82,23 +104,23 @@ export function initPart6() {
             state.activeMarkerDetection = 6;
             state.markerIgnoreUntil = now + state.MARKER_IGNORE_DURATION;
             
-            dom.target1.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target2.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target3.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target4.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target5.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target7.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target1) dom.target1.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target2) dom.target2.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target3) dom.target3.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target4) dom.target4.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target5) dom.target5.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target7) dom.target7.setAttribute('mindar-image-target', 'enabled: false');
             
             playPart6();
             
             setTimeout(() => {
                 if (!state.isPlaying) {
-                    dom.target1.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target2.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target3.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target4.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target5.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target7.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target1) dom.target1.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target2) dom.target2.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target3) dom.target3.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target4) dom.target4.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target5) dom.target5.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target7) dom.target7.setAttribute('mindar-image-target', 'enabled: true');
                     state.activeMarkerDetection = null;
                 }
             }, state.MARKER_IGNORE_DURATION);
