@@ -74,15 +74,15 @@ export const videos = {
         document.getElementById('vid-kertas-biru-part3-v1'), document.getElementById('vid-mascot-part3-v1')
     ],
     part4: [
-        document.getElementById('vid-gigi-orang-part4-v1'), document.getElementById('vid-bakteri-part4-v1'),
-        document.getElementById('vid-wadah-putih-part4-v1')
+        document.getElementById('vid-gigi-orang-part4-v1'), document.getElementById('vid-bakteri-part4-v1'), 
+        document.getElementById('vid-bakteri-part4-v2'), document.getElementById('vid-wadah-putih-part4-v1')
     ],
     part5: [
         document.getElementById('vid-air-part5-v1'), document.getElementById('vid-mascot-part5-v1'), 
         document.getElementById('vid-bola-part5-v1'), document.getElementById('vid-orang-naik-balon-part5-v1')
     ],
     part6: [
-        document.getElementById('vid-air-flip-part6-v1'), document.getElementById('vid-gigi-flip-part6-v1'),
+        document.getElementById('vid-air-part6-v1'), document.getElementById('vid-gigi-part6-v1'),
         document.getElementById('vid-mascot-dan-orang-part6-v1')
     ],
     part7: [

@@ -39,6 +39,7 @@ document.getElementById("vid-mascot-part3-v1").src = `./compressed_ultra-videos/
 // part 4
 document.getElementById("vid-gigi-orang-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/gigi orang.mp4?t=${cacheBuster}`;
 document.getElementById("vid-bakteri-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/bakteri.mp4?t=${cacheBuster}`;
+document.getElementById("vid-bakteri-part4-v2").src = `./compressed_ultra-videos/chapter2/part4/bakteri2.mp4?t=${cacheBuster}`;
 document.getElementById("vid-wadah-putih-part4-v1").src = `./compressed_ultra-videos/chapter2/part4/wadah putih.mp4?t=${cacheBuster}`;
 
 // Part 5
@@ -48,8 +49,8 @@ document.getElementById("vid-bola-part5-v1").src = `./compressed_ultra-videos/ch
 document.getElementById("vid-orang-naik-balon-part5-v1").src = `./compressed_ultra-videos/chapter2/part5/orang naik balon.mp4?t=${cacheBuster}`;
 
 // Part 6
-document.getElementById("vid-air-flip-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/air - flip.mp4?t=${cacheBuster}`;
-document.getElementById("vid-gigi-flip-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/gigi - flip.mp4?t=${cacheBuster}`;
+document.getElementById("vid-air-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/air.mp4?t=${cacheBuster}`;
+document.getElementById("vid-gigi-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/gigi.mp4?t=${cacheBuster}`;
 document.getElementById("vid-mascot-dan-orang-part6-v1").src = `./compressed_ultra-videos/chapter2/part6/mascot dan orang.mp4?t=${cacheBuster}`;
 
 // Part 7
@@ -73,7 +74,7 @@ allVideos.forEach((v, index) => {
 });
 
 // SESUAIKAN JUMLAH VIDEO DARI SELURUH PART (SAAT INI 6 UTK PART 1)
-const totalVideos = 31;
+const totalVideos = 32;
 
 allVideos.forEach((video, index) => {
     video.addEventListener("loadeddata", () => {

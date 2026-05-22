@@ -284,6 +284,58 @@ AFRAME.registerShader('blackkey-advanced', {
     }
 });
 
+AFRAME.registerShader('chromakey-bakteri', {
+    schema: { src: {type: 'map'} },
+    init: function(data) {
+        const videoTexture = new THREE.VideoTexture(data.src);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        videoTexture.format = THREE.RGBAFormat;
+        videoTexture.generateMipmaps = false;
+        videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+        videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+        
+        this.material = new THREE.ShaderMaterial({
+            uniforms: { tex: {value: videoTexture} },
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform sampler2D tex;
+                varying vec2 vUv;
+                
+                void main() {
+                    vec4 color = texture2D(tex, vUv);
+                    
+                    // Hitung seberapa dominan warna hijau dibanding merah dan biru
+                    float greenDominance = color.g - max(color.r, color.b);
+                    
+                    // Latar belakang neon green memiliki greenDominance tinggi (mendekati 1.0)
+                    // Bakteri hijau gelap memiliki greenDominance rendah (di bawah 0.3)
+                    // threshold 0.35 - 0.55 memastikan hanya hijau murni yang tembus pandang
+                    float alpha = 1.0 - smoothstep(0.35, 0.55, greenDominance);
+                    
+                    vec3 finalColor = color.rgb;
+                    
+                    // Despill: Membersihkan sisa pantulan hijau (halo effect) di pinggiran bakteri
+                    if (alpha > 0.0 && alpha < 1.0) {
+                        finalColor.g = min(finalColor.g, (finalColor.r + finalColor.b) * 0.6);
+                    }
+                    
+                    gl_FragColor = vec4(finalColor, alpha);
+                }
+            `,
+            transparent: true,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+    }
+});
+
 AFRAME.registerComponent('smooth-tracking', {
     schema: { smoothing: {type: 'number', default: 0.7} },
     init: function() {

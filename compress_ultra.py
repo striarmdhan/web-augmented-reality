@@ -22,7 +22,7 @@ def compress_video_ultra(input_path, output_path):
             '-c:v', 'libx264',          # Codec H.264 (Aman untuk semua browser)
             '-crf', '30',               # Kompresi tinggi (File kecil)
             '-preset', 'slow',          # Kualitas kompresi rapi
-            '-vf', 'scale=960:960',     # Pangkas resolusi raksasa!
+            '-vf', 'scale=1080:1080',   # Pangkas resolusi raksasa!
             '-r', '24',                 # Turunkan frame rate agar enteng
             '-an',                      # PENTING: Buang total pita suara agar RAM HP lega!
             '-movflags', '+faststart',  # Optimasi agar video AR langsung muncul (tanpa loading lama)
@@ -69,16 +69,10 @@ def main():
     for root, dirs, files in os.walk(input_folder):
         for file in files:
             if any(file.endswith(ext) for ext in video_extensions):
-                # 1. Dapatkan lokasi asli file
                 input_path = os.path.join(root, file)
-                
-                # 2. Cari tahu struktur folder relatifnya (misal: bagian2/part1/video1.mp4)
                 rel_path = os.path.relpath(input_path, input_folder)
-                
-                # 3. Tentukan lokasi akhir file
-                output_path = os.path.join(output_folder, rel_path)
-                
-                # Masukkan ke daftar tugas
+                base_name = os.path.splitext(rel_path)[0] 
+                output_path = os.path.join(output_folder, base_name + '.mp4')
                 video_tasks.append((input_path, output_path))
     
     if not video_tasks:
