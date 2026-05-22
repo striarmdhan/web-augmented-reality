@@ -1,23 +1,36 @@
 import { state, dom, videos } from '../state.js';
-import { fadeInContainer, fadeOutContainer, fadeAudioIn, fadeAudioOut, hideAllContainersExcept } from '../utils.js';
+import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept } from '../utils.js';
 
 export async function playPart5() {
-    if (state.isPlaying || state.isTransitioning) return;
+    // 1. Pengecekan guard ketat
+    if (state.isPlaying || !state.part4Finished || (state.currentPart !== 4 && state.currentPart !== 5) || state.isTransitioning) {
+        console.log('⏹️ [Part 5] Dibatalkan: Sedang play, Part 4 belum, atau bukan urutannya.');
+        return;
+    }
     
     state.isMarkerLocked = true;
     state.lockedMarker = 5;
-    hideAllContainersExcept(null);
     state.isTransitioning = true;
+    console.log('🔒 [Part 5] Marker LOCKED');
     
-    const previousContainer = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4].find(c => c.getAttribute('visible') === 'true');
+    hideAllContainersExcept(null);
+    
+    // 2. Transisi mulus dari layar sebelumnya
+    const allContainers = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4, dom.containerPart6, dom.containerPart7];
+    const previousContainer = allContainers.find(c => c && c.getAttribute('visible') === 'true');
+    
     if (previousContainer) {
-        fadeOutContainer(previousContainer, 400, async () => { await startPart5Videos(); });
+        console.log('🔄 [Part 5] Memudarkan adegan sebelumnya...');
+        fadeOutContainer(previousContainer, 400, async () => {
+            await startPart5Videos();
+        });
     } else {
         await startPart5Videos();
     }
 }
 
 async function startPart5Videos() {
+    console.log('🎬 [Part 5] Memulai pemutaran video...');
     state.currentPart = 5;
     state.isPlaying = true;
     
@@ -27,54 +40,78 @@ async function startPart5Videos() {
     
     videos.part5.forEach(v => { v.pause(); v.currentTime = 0; });
     
-    const playPromises = videos.part5.map(v => v.play().catch(e => console.error('Video play error:', e)));
+    const playPromises = videos.part5.map(v => v.play().catch(e => console.error('❌ [Part 5] Video play error:', e)));
     await Promise.all(playPromises);
     
+    // 3. TEKNIK FREEZE FRAME (Mencegah black screen di akhir video)
+    videos.part5.forEach(v => {
+        v.addEventListener('timeupdate', function preventBlackScreen() {
+            if (this.duration && (this.duration - this.currentTime <= 0.5)) {
+                this.pause(); 
+                this.removeEventListener('timeupdate', preventBlackScreen); 
+                console.log('🧊 [Part 5] Video dibekukan sebelum tamat!');
+            }
+        });
+    });
+    
     await new Promise(r => setTimeout(r, 150));
-    fadeInContainer(dom.containerPart5, 400);
+    if (dom.containerPart5) fadeInContainer(dom.containerPart5, 400);
     await new Promise(r => setTimeout(r, 50));
     
     try {
-        if (state.audioEnabled) {
+        if (state.audioEnabled && dom.soundV5) {
             dom.soundV5.pause();
             dom.soundV5.currentTime = 0;
             dom.soundV5.volume = 0;
             await dom.soundV5.play();
             fadeAudioIn(dom.soundV5, 400);
+        } else {
+             console.warn('⚠️ [Part 5] Audio belum diizinkan / tidak ditemukan.');
         }
-    } catch (e) { console.error('❌ Audio v5 error:', e); }
+    } catch (e) { console.error('❌ [Part 5] Audio error:', e); }
     
     state.isTransitioning = false;
     
-    Promise.all(videos.part5.map(v => new Promise(resolve => { v.onended = resolve; }))).then(() => {
-        state.isPlaying = false;
-        state.part5Finished = true;
-        fadeAudioOut(dom.soundV5, 400);
-        
-        fadeOutContainer(dom.containerPart5, 400, () => {
-            videos.part5.forEach(v => { v.pause(); v.currentTime = 0; });
-        });
-        
-        state.isMarkerLocked = false;
-        state.lockedMarker = null;
-        
-        dom.statusBar.textContent = '✅ Part 5 selesai - Tap untuk ulang atau scan Marker 6 🎯';
-        dom.statusBar.classList.remove('tracking');
-        dom.statusBar.classList.add('finished');
-    });
+    // 4. SUTRADARA AUDIO (Menutup layar berdasarkan durasi suara)
+    if (dom.soundV5) {
+        dom.soundV5.onended = () => {
+            console.log('✅ [Part 5] Audio habis! Menutup adegan...');
+            state.isPlaying = false;
+            state.part5Finished = true;
+            
+            // Fade out layar super cepat
+            if (dom.containerPart5) {
+                fadeOutContainer(dom.containerPart5, 250, () => {
+                    videos.part5.forEach(v => { v.pause(); v.currentTime = 0; });
+                    console.log('🧹 [Part 5] Layar dibersihkan.');
+                });
+            }
+            
+            state.isMarkerLocked = false;
+            state.lockedMarker = null;
+            
+            dom.statusBar.textContent = '✅ Part 5 selesai - Tap untuk ulang atau scan Marker 6 🎯';
+            dom.statusBar.classList.remove('tracking');
+            dom.statusBar.classList.add('finished');
+        };
+    }
 }
 
 export function initPart5() {
+    if (!dom.target5) return;
+
     dom.target5.addEventListener('targetFound', () => {
         const now = Date.now();
         if (now < state.markerIgnoreUntil && state.activeMarkerDetection !== 5) return;
+        
         if (state.isMarkerLocked && state.lockedMarker !== 5) {
             dom.statusBar.textContent = `⚠️ Tunggu Part ${state.lockedMarker} selesai dulu`;
             return;
         }
+        
         if (state.currentPart > 5) {
             dom.statusBar.textContent = '🚫 Tidak bisa balik ke Part sebelumnya! Tekan Reset jika perlu.';
-            dom.containerPart5.setAttribute('visible', false);
+            if (dom.containerPart5) dom.containerPart5.setAttribute('visible', false);
             return;
         }
         
@@ -82,23 +119,24 @@ export function initPart5() {
             state.activeMarkerDetection = 5;
             state.markerIgnoreUntil = now + state.MARKER_IGNORE_DURATION;
             
-            dom.target1.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target2.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target3.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target4.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target6.setAttribute('mindar-image-target', 'enabled: false');
-            dom.target7.setAttribute('mindar-image-target', 'enabled: false');
+            // Matikan target lain sementara
+            if (dom.target1) dom.target1.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target2) dom.target2.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target3) dom.target3.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target4) dom.target4.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target6) dom.target6.setAttribute('mindar-image-target', 'enabled: false');
+            if (dom.target7) dom.target7.setAttribute('mindar-image-target', 'enabled: false');
             
             playPart5();
             
             setTimeout(() => {
                 if (!state.isPlaying) {
-                    dom.target1.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target2.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target3.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target4.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target6.setAttribute('mindar-image-target', 'enabled: true');
-                    dom.target7.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target1) dom.target1.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target2) dom.target2.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target3) dom.target3.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target4) dom.target4.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target6) dom.target6.setAttribute('mindar-image-target', 'enabled: true');
+                    if (dom.target7) dom.target7.setAttribute('mindar-image-target', 'enabled: true');
                     state.activeMarkerDetection = null;
                 }
             }, state.MARKER_IGNORE_DURATION);
