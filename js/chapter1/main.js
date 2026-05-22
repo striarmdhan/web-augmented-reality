@@ -44,6 +44,7 @@ document.getElementById("vid-tangan").src = `./compressed_ultra-videos/chapter1/
 
 // Part 6
 document.getElementById("vid-kapal6").src = `./compressed_ultra-videos/chapter1/part6/KAPAL SELAM-v6.mp4?t=${cacheBuster}`;
+document.getElementById("vid-mascot2-6").src = `./compressed_ultra-videos/chapter1/part6/mascot2.mp4?t=${cacheBuster}`;
 document.getElementById("vid-mascot6").src = `./compressed_ultra-videos/chapter1/part6/ORANG MASCOT-v6.mp4?t=${cacheBuster}`;
 
 // Part 7
@@ -61,7 +62,7 @@ allVideos.forEach((v) => {
     v.load(); v.preload = "auto";
 });
 
-const totalVideos = 24;
+const totalVideos = 25;
 
 // 3. LOADING SCREEN SYSTEM
 allVideos.forEach((video, index) => {
