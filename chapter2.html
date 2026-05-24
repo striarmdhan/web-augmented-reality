@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagian 2</title>
+
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <a href="index.html" class="back-button">🔙 Menu Utama</a>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-title">Mohon Tunggu</div>
+        <div class="loading-message" id="loadingMessage">Sedang mempersiapkan...</div>
+        <div class="loading-progress" id="loadingProgress">●</div>
+        <div class="loading-detail" id="loadingDetail">Harap bersabar sebentar</div>
+        <div class="loading-tip">Pastikan koneksi internet Anda stabil</div>
+        <button class="start-button" id="startButton" disabled>Tunggu Sebentar...</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">Mencari marker...</div>
+
+    <div class="reset-button" id="resetButton">🔄 Reset ke Part 1</div>
+
+    <a-scene id="arScene" mindar-image="
+            imageTargetSrc: ./targets-mind/targets-chapter2.mind;
+            filterMinCF: 0.0001;
+            filterBeta: 0.001;
+            warmupTolerance: 3;
+            missTolerance: 5;
+            maxTrack: 7;
+        " color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true, antialias: true"
+        vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- Part 1 -->
+        <a-entity id="target1" mindar-image-target="targetIndex: 0">
+            <a-entity id="video-container-part1" visible="false">
+                <a-video id="video-kolam-renang-part1-v1" src="#vid-kolam-renang-part1-v1" position="0 0 0.1" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-kolam-renang-part1-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-balon-bebek-part1-v1" src="#vid-balon-bebek-part1-v1" position="0 0 0.15" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-balon-bebek-part1-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part1-v1" src="#vid-mascot-part1-v1" position="0 0 0.2" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot-part1-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-orang-gigi-part1-v1" src="#vid-orang-gigi-part1-v1" position="0 0 0.21" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-orang-gigi-part1-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-bakteri-part1-v1" src="#vid-bakteri-part1-v1" position="0 0 0.22" height="1" width="1"
+                    material="shader: chromakey-cyan; src: #vid-bakteri-part1-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-muntah-part1-v1" src="#vid-muntah-part1-v1" position="0 0 0.3" height="1" width="1"
+                    material="shader: chromakey-blue; src: #vid-muntah-part1-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <!-- Part 2 -->
+        <a-entity id="target2" mindar-image-target="targetIndex: 1">
+            <a-entity id="video-container-part2" visible="false">
+                <a-video id="video-muntah-part2-v1" src="#vid-muntah-part2-v1" position="0 0.01 0.1" height="1" width="1"
+                    material="shader: chromakey-blue; src: #vid-muntah-part2-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-orang-makan-part2-v1" src="#vid-orang-makan-part2-v1" position="0 0.01 0.1" height="1" width="1"
+                    material="shader: chromakey-blue; src: #vid-orang-makan-part2-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-kue-part2-v1" src="#vid-kue-part2-v1" position="0 0.01 0.1" height="1" width="1"
+                    material="shader: chromakey-blue; src: #vid-kue-part2-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part2-v1" src="#vid-mascot-part2-v1" position="0 0.01 0.15" height="1" width="1"
+                    material="shader: chromakey-blue; src: #vid-mascot-part2-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part2-v2" src="#vid-mascot-part2-v2" position="0 0.01 0.20" height="1" width="1"
+                    material="shader: chromakey-blue; src: #vid-mascot-part2-v2; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <!-- Part 3 -->
+        <a-entity id="target3" mindar-image-target="targetIndex: 2">
+            <a-entity id="video-container-part3" visible="false">
+                <a-video id="video-balon-bebek-part3-v1" src="#vid-balon-bebek-part3-v1" position="0 0 0.1" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-balon-bebek-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-badan-orang-part3-v1" src="#vid-badan-orang-part3-v1" position="0 0 0.11" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-badan-orang-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part3-v1" src="#vid-mascot-part3-v1" position="0 0 0.12" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-gigi-orang-part3-v1" src="#vid-gigi-orang-part3-v1" position="0 0 0.15" height="1" width="1"
+                    material="shader: chromakey-cyan; src: #vid-gigi-orang-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-tangan-part3-v1" src="#vid-tangan-part3-v1" position="0 0 0.155" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-tangan-part3-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-kertas-biru-part3-v1" src="#vid-kertas-biru-part3-v1" position="0 0 0.18" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-kertas-biru-part3-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <!-- Part 4 -->
+        <a-entity id="target4" mindar-image-target="targetIndex: 3">
+            <a-entity id="video-container-part4" visible="false">
+                <a-video id="video-gigi-orang-part4-v1" src="#vid-gigi-orang-part4-v1" position="0 0 0.1" height="1" width="1"
+                    material="shader: chromakey-cyan; src: #vid-gigi-orang-part4-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-bakteri-part4-v2" src="#vid-bakteri-part4-v2" position="0 0 0.11" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-bakteri-part4-v2; transparent: true; side: double"></a-video>
+                <a-video id="video-wadah-putih-part4-v1" src="#vid-wadah-putih-part4-v1" position="0 0 0.2" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-wadah-putih-part4-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-bakteri-part4-v1" src="#vid-bakteri-part4-v1" position="0 0 0.21" height="1" width="1"
+                    material="shader: chromakey-magenta; src: #vid-bakteri-part4-v1; transparent: true; side: double"></a-video>
+                <!-- New -->
+            </a-entity>
+        </a-entity>
+
+        <!-- Part 5 -->
+        <a-entity id="target5" mindar-image-target="targetIndex: 4">
+            <a-entity id="video-container-part5" visible="false">
+                <a-video id="video-air-part5-v1" src="#vid-air-part5-v1" position="0 0 0.1" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-air-part5-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-bola-part5-v1" src="#vid-bola-part5-v1" position="0 0 0.12" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-bola-part5-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-orang-naik-balon-part5-v1" src="#vid-orang-naik-balon-part5-v1" position="0 0 0.125" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-orang-naik-balon-part5-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part5-v1" src="#vid-mascot-part5-v1" position="0 0 0.13" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot-part5-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <!-- Part 6 -->
+        <a-entity id="target6" mindar-image-target="targetIndex: 5">
+            <a-entity id="video-container-part6" visible="false">
+                <a-video id="video-air-part6-v1" src="#vid-air-part6-v1" position="0 0 0.1" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-air-part6-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-gigi-part6-v1" src="#vid-gigi-part6-v1" position="0 0 0.2" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-gigi-part6-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-dan-orang-part6-v1" src="#vid-mascot-dan-orang-part6-v1" position="0 0 0.26" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot-dan-orang-part6-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <!-- Part 7 -->
+        <a-entity id="target7" mindar-image-target="targetIndex: 6">
+            <a-entity id="video-container-part7" visible="false">
+                <a-video id="video-air-part7-v1" src="#vid-air-part7-v1" position="0 0 0.1" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-air-part7-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-bebek-part7-v1" src="#vid-bebek-part7-v1" position="0 0 0.12" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-bebek-part7-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-orang-part7-v1" src="#vid-orang-part7-v1" position="0 0 0.14" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-orang-part7-v1; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot-part7-v1" src="#vid-mascot-part7-v1" position="0 0 0.24" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot-part7-v1; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-assets>
+            <!-- Part 1 -->
+            <video id="vid-bakteri-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-balon-bebek-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-kolam-renang-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-muntah-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang-gigi-part1-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 2 -->
+            <video id="vid-muntah-part2-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang-makan-part2-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-kue-part2-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part2-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part2-v2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 3 -->
+            <video id="vid-balon-bebek-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-badan-orang-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-gigi-orang-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-tangan-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-kertas-biru-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part3-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 4 -->
+            <video id="vid-gigi-orang-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-bakteri-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-bakteri-part4-v2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-wadah-putih-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            
+            <!-- Part 5 -->
+            <video id="vid-air-part5-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang-naik-balon-part5-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part5-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-bola-part5-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            
+            <!-- Part 6 -->
+            <video id="vid-air-part6-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-gigi-part6-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-dan-orang-part6-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 7 -->
+            <video id="vid-air-part7-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-bebek-part7-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang-part7-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot-part7-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- AUDIO -->
+            <audio id="sound-v1" src="./sounds/chapter2/output-sounds/sound-v1.MP3" preload="auto"></audio>
+            <audio id="sound-v2" src="./sounds/chapter2/output-sounds/sound-v2.MP3" preload="auto"></audio>
+            <audio id="sound-v3" src="./sounds/chapter2/output-sounds/sound-v3.MP3" preload="auto"></audio>
+            <audio id="sound-v4" src="./sounds/chapter2/output-sounds/sound-v4.MP3" preload="auto"></audio>
+            <audio id="sound-v5" src="./sounds/chapter2/output-sounds/sound-v5.MP3" preload="auto"></audio>
+            <audio id="sound-v6" src="./sounds/chapter2/output-sounds/sound-v6.MP3" preload="auto"></audio>
+            <audio id="sound-v7" src="./sounds/chapter2/output-sounds/sound-v7.MP3" preload="auto"></audio>
+        </a-assets>
+    </a-scene>
+
+    <script src="./js/shaders.js"></script>
+    <script type="module" src="./js/chapter2/main.js"></script>
+</body>
+
+</html>

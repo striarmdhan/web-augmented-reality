@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Bagian 1</title>
+
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <a href="index.html" class="back-button">🔙 Menu Utama</a>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-title">Mohon Tunggu</div>
+        <div class="loading-message" id="loadingMessage">Sedang mempersiapkan...</div>
+        <div class="loading-progress" id="loadingProgress">●</div>
+        <div class="loading-detail" id="loadingDetail">Harap bersabar sebentar</div>
+        <div class="loading-tip">Pastikan koneksi internet Anda stabil</div>
+        <button class="start-button" id="startButton" disabled>Tunggu Sebentar...</button>
+    </div>
+
+    <div class="status-bar" id="statusBar">Mencari marker...</div>
+
+    <div class="reset-button" id="resetButton">🔄 Reset ke Part 1</div>
+
+    <button class="next-button" id="nextButton" type="button" aria-label="Lanjut ke Chapter 2">
+        <img src="./button_next.PNG" alt="Next" draggable="false" />
+    </button>
+
+    <div class="tap-debug" id="tapDebug">tap: 0</div>
+
+    <a-scene id="arScene" mindar-image="
+            imageTargetSrc: ./targets-mind/targets-chapter1.mind;
+            filterMinCF: 0.0001;
+            filterBeta: 0.001;
+            warmupTolerance: 3;
+            missTolerance: 5;
+            maxTrack: 7; 
+        " color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights: true, antialias: true"
+        vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <a-entity id="target1" mindar-image-target="targetIndex: 0">
+            <a-entity id="video-container-part1" visible="false">
+                <a-video id="video-laut" src="#vid-laut" position="0 0 0.10" height="1.4" width="1.4"
+                    material="shader: chromakey-advanced; src: #vid-laut; transparent: true; side: double"></a-video>
+                <a-video id="video-kapal" src="#vid-kapal" position="0 0 0.20" height="1.4" width="1.4"
+                    material="shader: chromakey-advanced; src: #vid-kapal; transparent: true; side: double"></a-video>
+                <a-video id="video-batu" src="#vid-batu" position="0 0 0.30" height="1.4" width="1.4"
+                    material="shader: chromakey-gentle; src: #vid-batu; transparent: true; side: double"></a-video>
+                <a-video id="video-gelembung" src="#vid-gelembung" position="0 0 0.35" height="1.4" width="1.4"
+                    material="shader: chromakey-bubble; src: #vid-gelembung; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot" src="#vid-mascot" position="0 0 0.45" height="1.4" width="1.4"
+                    material="shader: chromakey-advanced; src: #vid-mascot; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="target2" mindar-image-target="targetIndex: 1">
+            <a-entity id="video-container-part2" visible="false">
+                <a-video id="video-batu2" src="#vid-batu2" position="-0.05 0.28 0.1" height="1.9" width="1.9"
+                    material="shader: chromakey-gentle; src: #vid-batu2; transparent: true; side: double"></a-video>
+                <a-video id="video-orang" src="#vid-orang" position="-0.05 0.28 0.20" height="1.9" width="1.9"
+                    material="shader: chromakey-advanced; src: #vid-orang; transparent: true; side: double"></a-video>
+                <a-video id="video-gelembung2" src="#vid-gelembung2" position="-0.05 0.28 0.25" height="1.9" width="1.9"
+                    material="shader: chromakey-bubble; src: #vid-gelembung2; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot2" src="#vid-mascot2" position="-0.05 0.28 0.30" height="1.9" width="1.9"
+                    material="shader: chromakey-advanced; src: #vid-mascot2; transparent: true; side: double"></a-video>
+                <a-video id="video-gosok" src="#vid-gosok" position="-0.05 0.28 0.40" height="1.9" width="1.9"
+                    material="shader: chromakey-advanced; src: #vid-gosok; transparent: true; side: double"></a-video>
+                <a-video id="video-text2" src="#vid-text2" position="-0.05 0.28 0.45" height="1.9" width="1.9"
+                    material="shader: chromakey-advanced; src: #vid-text2; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="target3" mindar-image-target="targetIndex: 2">
+            <a-entity id="video-container-part3" visible="false">
+                <a-video id="video-mascot3" src="#vid-mascot3" position="0 0 0.10" height="0.95" width="0.95"
+                    material="shader: chromakey-advanced; src: #vid-mascot3; transparent: true; side: double"></a-video>
+                <a-video id="video-kapal3" src="#vid-kapal3" position="0 0 0.2" height="0.95" width="0.95"
+                    material="shader: chromakey-advanced; src: #vid-kapal3; transparent: true; side: double"></a-video>
+                <a-video id="video-sikat" src="#vid-sikat" position="0 0 0.25" height="0.95" width="0.95"
+                    material="shader: chromakey-advanced; src: #vid-sikat; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="target4" mindar-image-target="targetIndex: 3">
+            <a-entity id="video-container-part4" visible="false">
+                <a-video id="video-mascot4" src="#vid-mascot4" position="0 0 0.10" height="0.95" width="0.95"
+                    material="shader: chromakey-advanced; src: #vid-mascot4; transparent: true; side: double"></a-video>
+                <a-video id="video-kapal4" src="#vid-kapal4" position="0 0 0.2" height="0.95" width="0.95"
+                    material="shader: chromakey-advanced; src: #vid-kapal4; transparent: true; side: double"></a-video>
+                <a-image id="image-lumut4" src="#img-lumut4" position="0 0 0.24" height="0.95" width="0.95"
+                    material="transparent: true; alphaTest: 0.5"></a-image>
+                <a-video id="video-sikat4" src="#vid-sikat4" position="0 0 0.29" height="0.95" width="0.95"
+                    material="shader: chromakey-advanced; src: #vid-sikat4; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="target5" mindar-image-target="targetIndex: 4">
+            <a-entity id="video-container-part5" visible="false">
+                <a-video id="video-orang5" src="#vid-orang5" position="0 0 0.2" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-orang5; transparent: true; side: double"></a-video>
+                <a-video id="video-tangan" src="#vid-tangan" position="0 0 0.25" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-tangan; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="target6" mindar-image-target="targetIndex: 5">
+            <a-entity id="video-container-part6" visible="false">
+                <a-video id="video-kapal6" src="#vid-kapal6" position="0 0 0.10" height="1" width="1"
+                    material="shader: blackkey-advanced; src: #vid-kapal6; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot2-6" src="#vid-mascot2-6" position="0 0 0.20" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot2-6; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot6" src="#vid-mascot6" position="0 0 0.30" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot6; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="target7" mindar-image-target="targetIndex: 6">
+            <a-entity id="video-container-part7" visible="false">
+                <a-video id="video-laut7" src="#vid-laut7" position="0 0 0.10" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-laut7; transparent: true; side: double"></a-video>
+                <a-video id="video-coral7" src="#vid-coral7" position="0 0 0.20" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-coral7; transparent: true; side: double"></a-video>
+                <a-video id="video-mascot7" src="#vid-mascot7" position="0 0 0.30" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-mascot7; transparent: true; side: double"></a-video>
+                <a-video id="video-orang7" src="#vid-orang7" position="0 0 0.40" height="1" width="1"
+                    material="shader: chromakey-advanced; src: #vid-orang7; transparent: true; side: double"></a-video>
+            </a-entity>
+        </a-entity>
+
+        <a-assets>
+            <!-- Part 1 -->
+            <video id="vid-laut" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-batu" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-gelembung" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-kapal" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 2 -->
+            <video id="vid-batu2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-gelembung2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-gosok" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-text2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 3 -->
+            <video id="vid-kapal3" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot3" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-sikat" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 4 -->
+            <video id="vid-kapal4" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot4" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-sikat4" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 5 -->
+            <video id="vid-orang5" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-tangan" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 6 -->
+            <video id="vid-kapal6" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot2-6" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot6" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <!-- Part 7 -->
+            <video id="vid-coral7" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-laut7" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-mascot7" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <video id="vid-orang7" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+
+            <img id="img-lumut4" src="./compressed_ultra-videos/LUMUT-v4.PNG" crossorigin="anonymous" />
+
+            <audio id="sound-v1" src="./sounds/chapter1/output-sounds/sound-v1.MP3" preload="auto"></audio>
+            <audio id="sound-v2" src="./sounds/chapter1/output-sounds/sound-v2.MP3" preload="auto"></audio>
+            <audio id="sound-v3" src="./sounds/chapter1/output-sounds/sound-v3.MP3" preload="auto"></audio>
+            <audio id="sound-v4" src="./sounds/chapter1/output-sounds/sound-v4.MP3" preload="auto"></audio>
+            <audio id="sound-v5" src="./sounds/chapter1/output-sounds/sound-v5.MP3" preload="auto"></audio>
+            <audio id="sound-v6" src="./sounds/chapter1/output-sounds/sound-v6.MP3" preload="auto"></audio>
+            <audio id="sound-v7" src="./sounds/chapter1/output-sounds/sound-v7.MP3" preload="auto"></audio>
+        </a-assets>
+    </a-scene>
+
+    <script src="./js/shaders.js"></script>
+    <script type="module" src="./js/chapter1/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+raw-videos/
+sounds/**/raw-sounds
+
+.DS_Store
+Thumbs.db
+node_modules/
