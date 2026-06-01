@@ -1,5 +1,5 @@
 import { state, dom, videos } from '../state.js';
-import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept, isContainerVisible } from '../utils.js';
+import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept } from '../utils.js';
 
 export async function playPart1() {
     // Pengecekan guard yang ketat
@@ -13,7 +13,7 @@ export async function playPart1() {
     state.isTransitioning = true;
     console.log('🔒 [Part 1] Marker LOCKED - Hanya Marker 1 yang aktif');
     
-    hideAllContainersExcept(dom.containerPart1);
+    hideAllContainersExcept(null);
     
     // Cari layar mana yang mungkin masih menyala secara aman
     // (Untuk Part 1, biasanya layar sebelumnya kosong, tapi ini buat jaga-jaga kalau user Replay)
@@ -32,7 +32,6 @@ export async function playPart1() {
 
 async function startPart1Videos() {
     console.log('🎬 [Part 1] Memulai pemutaran video...');
-    const wasVisible = isContainerVisible(dom.containerPart1);
     state.currentPart = 1;
     state.isPlaying = true;
     
@@ -47,20 +46,9 @@ async function startPart1Videos() {
     await Promise.all(playPromises);
     console.log('📹 [Part 1] Semua video berhasil berjalan.');
     
-    // TEKNIK FREEZE FRAME: pause video ~0.5 detik sebelum tamat agar tidak hitam di akhir
-    videos.part1.forEach(v => {
-        v.addEventListener('timeupdate', function preventBlackScreen() {
-            if (this.duration && (this.duration - this.currentTime <= 0.5)) {
-                this.pause();
-                this.removeEventListener('timeupdate', preventBlackScreen);
-            }
-        });
-    });
-    
-    // Jeda agar tidak ada flash hitam di awal. Saat replay (sudah visible), skip fade-in.
+    // Jeda sedikit agar layar tidak berkedip, lalu fade in
     await new Promise(r => setTimeout(r, 150));
-    if (dom.containerPart1 && !wasVisible) fadeInContainer(dom.containerPart1, 400);
-    else if (dom.containerPart1) dom.containerPart1.setAttribute('visible', true);
+    if (dom.containerPart1) fadeInContainer(dom.containerPart1, 400);
     
     try {
         if (state.audioEnabled && dom.soundV1) {
@@ -79,25 +67,18 @@ async function startPart1Videos() {
     
     state.isTransitioning = false;
     
-    // Saat audio habis: video FREEZE di frame terakhir, container TETAP terlihat
+    // ANTI DELAY: Langsung tutup layar saat AUDIO selesai (bukan video)
     if (dom.soundV1) {
         dom.soundV1.onended = () => {
-            console.log('✅ [Part 1] Audio habis! Video frozen di frame terakhir.');
+            console.log('✅ [Part 1] Audio habis! Menutup adegan secepatnya...');
             state.isPlaying = false;
             state.part1Finished = true;
             
+            // Animasi fade-out super cepat (250ms) agar tidak ngelag
             if (dom.containerPart1) {
-                // Memudarkan layar selama 250 milidetik
                 fadeOutContainer(dom.containerPart1, 250, () => {
-                    // Setelah layar benar-benar hilang (transparan 100%),
-                    // barulah kita matikan videonya dan reset ke detik 0
-                    videos.part1.forEach(v => { 
-                        try { 
-                            v.pause(); 
-                            v.currentTime = 0; 
-                        } catch (e) {} 
-                    });
-                    console.log('🧹 Layar dibersihkan dan video dimatikan.');
+                    videos.part1.forEach(v => { v.pause(); v.currentTime = 0; });
+                    console.log('🧹 [Part 1] Layar dibersihkan dan video dimatikan.');
                 });
             }
             

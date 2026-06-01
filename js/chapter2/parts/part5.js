@@ -1,5 +1,5 @@
 import { state, dom, videos } from '../state.js';
-import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept, isContainerVisible } from '../utils.js';
+import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept } from '../utils.js';
 
 export async function playPart5() {
     // Pengecekan guard
@@ -13,7 +13,7 @@ export async function playPart5() {
     state.isTransitioning = true;
     console.log('🔒 [Part 5] Marker LOCKED');
     
-    hideAllContainersExcept(dom.containerPart5);
+    hideAllContainersExcept(null);
     
     // Cari layar sebelumnya yang mungkin masih menyala secara aman (terutama Part 4)
     const allContainers = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4]; 
@@ -31,7 +31,6 @@ export async function playPart5() {
 
 async function startPart5Videos() {
     console.log('🎬 [Part 5] Memulai pemutaran video...');
-    const wasVisible = isContainerVisible(dom.containerPart5);
     state.currentPart = 5;
     state.isPlaying = true;
     
@@ -46,19 +45,8 @@ async function startPart5Videos() {
     await Promise.all(playPromises);
     console.log('📹 [Part 5] Semua video berjalan.');
     
-    // FREEZE FRAME
-    videos.part5.forEach(v => {
-        v.addEventListener('timeupdate', function preventBlackScreen() {
-            if (this.duration && (this.duration - this.currentTime <= 0.5)) {
-                this.pause();
-                this.removeEventListener('timeupdate', preventBlackScreen);
-            }
-        });
-    });
-    
     await new Promise(r => setTimeout(r, 150));
-    if (dom.containerPart5 && !wasVisible) fadeInContainer(dom.containerPart5, 400);
-    else if (dom.containerPart5) dom.containerPart5.setAttribute('visible', true);
+    if (dom.containerPart5) fadeInContainer(dom.containerPart5, 400);
     
     try {
         if (state.audioEnabled && dom.soundV5) {
@@ -77,24 +65,18 @@ async function startPart5Videos() {
     
     state.isTransitioning = false;
     
+    // ANTI DELAY: Patokan berakhirnya layar = Audio selesai
     if (dom.soundV5) {
         dom.soundV5.onended = () => {
-            console.log('✅ [Part 5] Audio habis! Video frozen di frame terakhir.');
+            console.log('✅ [Part 5] Audio habis! Menutup adegan...');
             state.isPlaying = false;
             state.part5Finished = true;
             
+            // Fade out cepat
             if (dom.containerPart5) {
-                // Memudarkan layar selama 250 milidetik
                 fadeOutContainer(dom.containerPart5, 250, () => {
-                    // Setelah layar benar-benar hilang (transparan 100%),
-                    // barulah kita matikan videonya dan reset ke detik 0
-                    videos.part5.forEach(v => { 
-                        try { 
-                            v.pause(); 
-                            v.currentTime = 0;
-                        } catch (e) {} 
-                    });
-                        console.log('🧹 Layar dibersihkan dan video dimatikan.');
+                    videos.part5.forEach(v => { v.pause(); v.currentTime = 0; });
+                    console.log('🧹 [Part 5] Layar dibersihkan.');
                 });
             }
             

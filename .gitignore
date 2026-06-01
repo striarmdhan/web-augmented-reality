@@ -2,5 +2,9 @@ raw-videos/
 sounds/**/raw-sounds
 
 .DS_Store
+<<<<<<< HEAD
 Thumbs.db
 node_modules/
+=======
+Thumbs.db
+>>>>>>> 7a482247729074e87680af868bedd1bf943ac1b7

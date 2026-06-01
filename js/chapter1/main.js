@@ -9,8 +9,6 @@ import { playPart5, initPart5 } from './parts/part5.js';
 import { playPart6, initPart6 } from './parts/part6.js';
 import { playPart7, initPart7 } from './parts/part7.js';
 
-import { initNextButton, hideNextButton } from './nextButton.js';
-
 // 1. DYNAMIC CACHE BUSTING
 const cacheBuster = Date.now();
 console.log("🔄 Cache buster applied:", cacheBuster);
@@ -29,7 +27,6 @@ document.getElementById("vid-gelembung2").src = `./compressed_ultra-videos/chapt
 document.getElementById("vid-mascot2").src = `./compressed_ultra-videos/chapter1/part2/MASCOT-v2.mp4?t=${cacheBuster}`;
 document.getElementById("vid-gosok").src = `./compressed_ultra-videos/chapter1/part2/GOSOK GIGI-v2.mp4?t=${cacheBuster}`;
 document.getElementById("vid-orang").src = `./compressed_ultra-videos/chapter1/part2/ORANG-v2.mp4?t=${cacheBuster}`;
-document.getElementById("vid-text2").src = `./compressed_ultra-videos/chapter1/part2/TEXT_v2.mp4?t=${cacheBuster}`;
 
 // Part 3
 document.getElementById("vid-kapal3").src = `./compressed_ultra-videos/chapter1/part3/KAPAL SELAM-v3.mp4?t=${cacheBuster}`;
@@ -65,7 +62,7 @@ allVideos.forEach((v) => {
     v.load(); v.preload = "auto";
 });
 
-const totalVideos = 26;
+const totalVideos = 25;
 
 // 3. LOADING SCREEN SYSTEM
 allVideos.forEach((video, index) => {
@@ -114,7 +111,6 @@ dom.startButton.addEventListener("click", async () => {
     dom.arScene.classList.add("ready");
 
     initPart1(); initPart2(); initPart3(); initPart4(); initPart5(); initPart6(); initPart7();
-    initNextButton();
 });
 
 // 5. GLOBAL CONTROL LOGIC
@@ -161,8 +157,6 @@ export function restartFromBeginning() {
 
     dom.statusBar.classList.remove("finished");
     dom.statusBar.textContent = "Mencari marker...";
-
-    hideNextButton();
 }
 
 // 6. EVENT LISTENERS

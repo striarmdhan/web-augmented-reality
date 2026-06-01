@@ -88,20 +88,10 @@ export function fadeAudioOut(audio, duration) {
 }
 
 export function hideAllContainersExcept(exceptContainer) {
-    const allContainers = [
-        dom.containerPart1, dom.containerPart2, dom.containerPart3,
-        dom.containerPart4, dom.containerPart5, dom.containerPart6, dom.containerPart7
-    ];
+    const allContainers = [dom.containerPart1];
     allContainers.forEach(container => {
         if (container !== exceptContainer) {
             container.setAttribute('visible', false);
         }
     });
-}
-
-// Helper: cek apakah container A-Frame sedang terlihat (visible attribute = true)
-export function isContainerVisible(container) {
-    if (!container) return false;
-    const v = container.getAttribute('visible');
-    return v === true || v === 'true';
 }

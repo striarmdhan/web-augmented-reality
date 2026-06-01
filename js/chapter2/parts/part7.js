@@ -1,5 +1,5 @@
 import { state, dom, videos } from '../state.js';
-import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept, isContainerVisible } from '../utils.js';
+import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept } from '../utils.js';
 
 export async function playPart7() {
     // Pengecekan guard
@@ -13,7 +13,7 @@ export async function playPart7() {
     state.isTransitioning = true;
     console.log('🔒 [Part 7] Marker LOCKED');
     
-    hideAllContainersExcept(dom.containerPart7);
+    hideAllContainersExcept(null);
     
     // Cari layar sebelumnya yang mungkin masih menyala secara aman
     const allContainers = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart4, dom.containerPart5, dom.containerPart6]; 
@@ -31,7 +31,6 @@ export async function playPart7() {
 
 async function startPart7Videos() {
     console.log('🎬 [Part 7] Memulai pemutaran video...');
-    const wasVisible = isContainerVisible(dom.containerPart7);
     state.currentPart = 7;
     state.isPlaying = true;
     
@@ -46,19 +45,8 @@ async function startPart7Videos() {
     await Promise.all(playPromises);
     console.log('📹 [Part 7] Semua video berjalan.');
     
-    // FREEZE FRAME
-    videos.part7.forEach(v => {
-        v.addEventListener('timeupdate', function preventBlackScreen() {
-            if (this.duration && (this.duration - this.currentTime <= 0.5)) {
-                this.pause();
-                this.removeEventListener('timeupdate', preventBlackScreen);
-            }
-        });
-    });
-    
     await new Promise(r => setTimeout(r, 150));
-    if (dom.containerPart7 && !wasVisible) fadeInContainer(dom.containerPart7, 400);
-    else if (dom.containerPart7) dom.containerPart7.setAttribute('visible', true);
+    if (dom.containerPart7) fadeInContainer(dom.containerPart7, 400);
     
     try {
         if (state.audioEnabled && dom.soundV7) {
@@ -77,24 +65,18 @@ async function startPart7Videos() {
     
     state.isTransitioning = false;
     
+    // ANTI DELAY: Patokan berakhirnya layar = Audio selesai
     if (dom.soundV7) {
         dom.soundV7.onended = () => {
-            console.log('✅ [Part 7] Audio habis! Video frozen di frame terakhir.');
+            console.log('✅ [Part 7] Audio habis! Menutup adegan...');
             state.isPlaying = false;
             state.part7Finished = true;
             
+            // Fade out cepat
             if (dom.containerPart7) {
-                // Memudarkan layar selama 250 milidetik
                 fadeOutContainer(dom.containerPart7, 250, () => {
-                    // Setelah layar benar-benar hilang (transparan 100%),
-                    // barulah kita matikan videonya dan reset ke detik 0
-                    videos.part7.forEach(v => { 
-                        try { 
-                            v.pause(); 
-                            v.currentTime = 0;
-                        } catch (e) {} 
-                    });
-                        console.log('🧹 Layar dibersihkan dan video dimatikan.');
+                    videos.part7.forEach(v => { v.pause(); v.currentTime = 0; });
+                    console.log('🧹 [Part 7] Layar dibersihkan.');
                 });
             }
             

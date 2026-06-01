@@ -98,11 +98,3 @@ export function hideAllContainersExcept(exceptContainer) {
         }
     });
 }
-
-// Helper: cek apakah container A-Frame sedang terlihat (visible attribute = true)
-// A-Frame menyimpan attribute "visible" sebagai string "true"/"false" atau boolean.
-export function isContainerVisible(container) {
-    if (!container) return false;
-    const v = container.getAttribute('visible');
-    return v === true || v === 'true';
-}

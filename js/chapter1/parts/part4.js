@@ -1,5 +1,5 @@
 import { state, dom, videos } from '../state.js';
-import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept, isContainerVisible } from '../utils.js';
+import { fadeInContainer, fadeOutContainer, fadeAudioIn, hideAllContainersExcept } from '../utils.js';
 
 export async function playPart4() {
     // 1. Pengecekan guard ketat
@@ -13,7 +13,7 @@ export async function playPart4() {
     state.isTransitioning = true;
     console.log('🔒 [Part 4] Marker LOCKED');
     
-    hideAllContainersExcept(dom.containerPart4);
+    hideAllContainersExcept(null);
     
     // 2. Transisi mulus dari layar sebelumnya
     const allContainers = [dom.containerPart1, dom.containerPart2, dom.containerPart3, dom.containerPart5, dom.containerPart6, dom.containerPart7];
@@ -31,7 +31,6 @@ export async function playPart4() {
 
 async function startPart4Videos() {
     console.log('🎬 [Part 4] Memulai pemutaran video...');
-    const wasVisible = isContainerVisible(dom.containerPart4);
     state.currentPart = 4;
     state.isPlaying = true;
     
@@ -56,8 +55,7 @@ async function startPart4Videos() {
     });
     
     await new Promise(r => setTimeout(r, 150));
-    if (dom.containerPart4 && !wasVisible) fadeInContainer(dom.containerPart4, 400);
-    else if (dom.containerPart4) dom.containerPart4.setAttribute('visible', true);
+    if (dom.containerPart4) fadeInContainer(dom.containerPart4, 400);
     await new Promise(r => setTimeout(r, 50));
     
     try {
@@ -74,25 +72,18 @@ async function startPart4Videos() {
     
     state.isTransitioning = false;
     
-    // 4. SUTRADARA AUDIO (Saat audio habis: video FREEZE, container tetap terlihat)
+    // 4. SUTRADARA AUDIO (Menutup layar berdasarkan durasi suara)
     if (dom.soundV4) {
         dom.soundV4.onended = () => {
-            console.log('✅ [Part 4] Audio habis! Video frozen di frame terakhir.');
+            console.log('✅ [Part 4] Audio habis! Menutup adegan...');
             state.isPlaying = false;
             state.part4Finished = true;
             
+            // Fade out layar super cepat
             if (dom.containerPart4) {
-                // Memudarkan layar selama 250 milidetik
                 fadeOutContainer(dom.containerPart4, 250, () => {
-                    // Setelah layar benar-benar hilang (transparan 100%),
-                    // barulah kita matikan videonya dan reset ke detik 0
-                    videos.part4.forEach(v => { 
-                        try { 
-                            v.pause(); 
-                            v.currentTime = 0;
-                        } catch (e) {} 
-                    });
-                        console.log('🧹 Layar dibersihkan dan video dimatikan.');
+                    videos.part4.forEach(v => { v.pause(); v.currentTime = 0; });
+                    console.log('🧹 [Part 4] Layar dibersihkan.');
                 });
             }
             

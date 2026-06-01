@@ -67,7 +67,7 @@ export const videos = {
     part2: [
         document.getElementById('vid-batu2'), document.getElementById('vid-gelembung2'),
         document.getElementById('vid-mascot2'), document.getElementById('vid-gosok'),
-        document.getElementById('vid-orang'), document.getElementById('vid-text2')
+        document.getElementById('vid-orang')
     ],
     part3: [
         document.getElementById('vid-kapal3'), document.getElementById('vid-mascot3'),
