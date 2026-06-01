@@ -84,7 +84,20 @@ async function startPart3Videos() {
             state.isPlaying = false;
             state.part3Finished = true;
             
-            videos.part3.forEach(v => { try { v.pause(); } catch (e) {} });
+            if (dom.containerPart3) {
+                // Memudarkan layar selama 250 milidetik
+                fadeOutContainer(dom.containerPart3, 250, () => {
+                    // Setelah layar benar-benar hilang (transparan 100%),
+                    // barulah kita matikan videonya dan reset ke detik 0
+                    videos.part3.forEach(v => { 
+                        try { 
+                            v.pause(); 
+                            v.currentTime = 0;
+                        } catch (e) {} 
+                    });
+                        console.log('🧹 Layar dibersihkan dan video dimatikan.');
+                });
+            }
             
             state.isMarkerLocked = false;
             state.lockedMarker = null;

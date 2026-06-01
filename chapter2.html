@@ -97,13 +97,22 @@
             <a-entity id="video-container-part4" visible="false">
                 <a-video id="video-gigi-orang-part4-v1" src="#vid-gigi-orang-part4-v1" position="0 0 0.1" height="1" width="1"
                     material="shader: chromakey-cyan; src: #vid-gigi-orang-part4-v1; transparent: true; side: double"></a-video>
-                <a-video id="video-bakteri-part4-v2" src="#vid-bakteri-part4-v2" position="0 0 0.11" height="1" width="1"
+
+                <a-image id="image-border-addon" src="#img-border-addon" position="-0.06 0 0.12" height="1" width="1"
+                    material="transparent: true; alphaTest: 0.5"></a-image>
+                
+                <a-video id="video-bakteri-part4-v2" src="#vid-bakteri-part4-v2" position="0 0 0.16" height="1" width="1"
                     material="shader: chromakey-advanced; src: #vid-bakteri-part4-v2; transparent: true; side: double"></a-video>
-                <a-video id="video-wadah-putih-part4-v1" src="#vid-wadah-putih-part4-v1" position="0 0 0.2" height="1" width="1"
+                
+                <a-video id="video-wadah-putih-part4-v1" src="#vid-wadah-putih-part4-v1" position="0 0 0.20" height="1" width="1"
                     material="shader: chromakey-advanced; src: #vid-wadah-putih-part4-v1; transparent: true; side: double"></a-video>
-                <a-video id="video-bakteri-part4-v1" src="#vid-bakteri-part4-v1" position="0 0 0.21" height="1" width="1"
+                
+                <a-image id="image-wadahputih-addon" src="#img-wadahputih-addon" position="-0.06 0 0.22" height="1" width="1"
+                    material="transparent: true; alphaTest: 0.5"></a-image>
+                
+                <a-video id="video-bakteri-part4-v1" src="#vid-bakteri-part4-v1" position="0 0 0.26" height="1" width="1"
                     material="shader: chromakey-magenta; src: #vid-bakteri-part4-v1; transparent: true; side: double"></a-video>
-                <!-- New -->
+                    
             </a-entity>
         </a-entity>
 
@@ -173,8 +182,10 @@
 
             <!-- Part 4 -->
             <video id="vid-gigi-orang-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <img id="img-border-addon" src="./addon-image/chapter2/part4/border-addon.PNG" crossorigin="anonymous" />
             <video id="vid-bakteri-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             <video id="vid-bakteri-part4-v2" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
+            <img id="img-wadahputih-addon" src="./addon-image/chapter2/part4/wadahputih-addon.PNG" crossorigin="anonymous" />
             <video id="vid-wadah-putih-part4-v1" preload="auto" crossorigin="anonymous" playsinline webkit-playsinline muted></video>
             
             <!-- Part 5 -->
